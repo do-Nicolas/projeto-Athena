@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+
+.telaInicial-page .cronograma-container h1{
+     font-family: "Jost", sans-serif;
+     letter-spacing: 25px;
+     font-weight: 400;
+     margin: 0px;
+     justify-content: center;
+}
+
+.telaInicial-page .cronograma-container {
+     width: 450px;
+     padding: 2%;
+     padding-left: 4%;padding-right: 4%;
+     border-radius: 30px;
+     background-color: #FDE0CB;
+}
+
+.telaInicial-page{
+    display: flex;
+    flex-direction: column;
+     justify-content: center;
+     align-items: center;
+}

@@ -1,0 +1,20 @@
+
+
+.app {
+  display: flex;
+  height: 100vh;
+}
+
+.main-content {
+  margin-left: 100px; 
+  padding: 20px;
+  flex: 1;
+   
+}
+@media screen and (max-width: 1000px) {
+.main-content {
+  margin-left: 40px; 
+  
+}
+}
+ 
