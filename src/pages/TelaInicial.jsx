@@ -8,7 +8,7 @@ const TelaInicial = () => {
           <div className="cronograma-container">
             <h1>CRONOGRAMA</h1>
             </div>
-          
+
           <Calendar/>
         </div>
         

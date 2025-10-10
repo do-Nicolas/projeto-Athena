@@ -1,0 +1,142 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap');
+
+/* Centralização geral */
+.calendar-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 3%;
+  width: 100%;
+}
+
+/* Container principal */
+.calendar-container {
+  background-color: #fff;
+  border-radius: 25px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 2%;
+  width: 85%;
+  max-width: 900px;
+  min-width: 320px;
+  font-family: "Jost", sans-serif;
+  transition: all 0.2s ease-in-out;
+}
+
+/* === CABEÇALHO DO CALENDÁRIO === */
+.fc .fc-toolbar {
+  background-color: #90EBF5;
+  border-radius: 15px;
+  margin-bottom: 1rem;
+  padding: 0.6rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* botões à esquerda, título centralizado */
+  position: relative;
+}
+
+/* Botões de navegação fixos no canto esquerdo */
+.fc .fc-toolbar-chunk:first-child {
+  position: absolute;
+  left: 15px;
+  display: flex;
+  gap: 8px;
+}
+
+/* Centralizar o título perfeitamente */
+.fc .fc-toolbar-chunk:nth-child(2) {
+  flex: 1;
+  text-align: center;
+}
+
+/* Botões */
+.fc .fc-button {
+  background: none;
+  border: none;
+  color: #333;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: clamp(0.9rem, 1.2vw, 1rem);
+  transition: background-color 0.2s ease;
+  border-radius: 10px;
+  padding: 5px 10px;
+}
+
+.fc .fc-button:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Título (mês e ano) */
+.fc .fc-toolbar-title {
+  font-size: clamp(1.2rem, 2vw, 1.6rem);
+  font-weight: 600;
+  color: #000;
+  letter-spacing: 0.5px;
+}
+
+/* === GRELHA DO CALENDÁRIO === */
+.fc-theme-standard th {
+  background: none;
+  color: #444;
+  font-weight: 500;
+  text-transform: capitalize;
+  font-size: clamp(0.8rem, 1vw, 1rem);
+  border-color: #f0f0f0;
+}
+
+.fc-daygrid-day {
+  border: 1px solid #eee;
+  transition: background 0.2s;
+}
+
+.fc-daygrid-day:hover {
+  background-color: #FDE0CB;
+  cursor: pointer;
+}
+
+/* Hoje */
+.fc-day-today {
+  background-color: #FFF4E6 !important;
+  border-radius: 10px;
+}
+
+/* Números dos dias */
+.fc-daygrid-day-number {
+  color: #000;
+  font-weight: 500;
+  font-size: clamp(0.8rem, 1vw, 1rem);
+}
+
+/* Limpeza das bordas e layout geral */
+.fc-theme-standard td,
+.fc-theme-standard th {
+  border-color: #f0f0f0;
+}
+
+.fc-scrollgrid {
+  border: none !important;
+  border-radius: 20px;
+}
+
+.fc-daygrid {
+  padding: 10px;
+}
+
+/* === RESPONSIVIDADE === */
+@media (max-width: 768px) {
+  .calendar-container {
+    width: 95%;
+    padding: 3%;
+  }
+
+  .fc .fc-toolbar {
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.5rem;
+    height: auto;
+  }
+
+  .fc .fc-toolbar-chunk:first-child {
+    position: static;
+    justify-content: center;
+  }
+}
