@@ -28,7 +28,7 @@ const esquecerSenha = () => {
                <script>
                 document.getElementById("RedefinirBtn").addEventListener("click", function (e) {
                 e.preventDefault()};
-                window.location.href = "../Login_Athena/Login.html"; 
+                window.location.href = "./Login.jsx"; 
                 );
                 </script>
     </form>
