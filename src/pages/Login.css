@@ -81,8 +81,8 @@
 .login-page .titles {
   position: relative;
 }
-.login-page .title-login,
-.login-page .title-register {
+.login-page .titulo-login,
+.login-page .titulo-registro {
   position: absolute;
   top:50%;
   left:50%;
@@ -91,7 +91,7 @@
   font-size: 24px;
   transition: var(--transition-3s);
 }
-.login-page .title-register {
+.login-page .titulo-registro {
   top:50px;
 }
 
@@ -202,4 +202,119 @@
   .login-page .wrapper {
     margin:20px;
   }
+}
+.wrapper_rdf {
+  position: relative;
+  width: 430px;
+  height: 300px;
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 120px 32px 64px;
+  border: 1px solid #010205;
+  box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+  transition: 0.3s;
+  overflow: hidden;
+  margin: 50px auto; /* centraliza na tela */
+}
+
+.wrapper_rdf .form-header {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 140px;
+  height: 70px;
+  background-color: #010205;
+  border-radius: 0 0 20px 20px;
+}
+
+.wrapper_rdf .titles {
+  position: relative;
+}
+
+.wrapper_rdf .titulo-redefinir {
+  color: #fff;
+  font-size: 24px;
+  text-align: center;
+}
+
+.wrapper_rdf .redefinir-form {
+  position: relative;
+  width: 85%;
+  margin: auto;
+}
+
+.wrapper_rdf .input-box {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin: 20px 0;
+}
+
+.wrapper_rdf .input-field {
+  width: 100%;
+  height: 55px;
+  font-size: 16px;
+  background: transparent;
+  color: #000;
+  padding: 0 20px;
+  border: 1px solid #E3E4E6;
+  border-radius: 30px;
+  outline: none;
+  transition: 0.3s;
+}
+
+.wrapper_rdf .input-field:focus {
+  border: 1px solid #010205;
+}
+
+.wrapper_rdf .label {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+  color: #4e4e50;
+  transition: 0.2s;
+  cursor: text;
+}
+
+.wrapper_rdf .input-field:focus ~ .label,
+.wrapper_rdf .input-field:valid ~ .label {
+  top: 0;
+  font-size: 14px;
+  background-color: #fff;
+  color: #010205;
+  padding: 0 10px;
+}
+
+.wrapper_rdf .icon {
+  position: absolute;
+  top: 50%;
+  right: 25px;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: #4e4e50;
+}
+
+.wrapper_rdf .btn-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  height: 50px;
+  background-color: #010205;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.wrapper_rdf .btn-submit:hover {
+  gap: 15px;
 }

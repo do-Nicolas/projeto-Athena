@@ -6,6 +6,8 @@ import Ajuda from './pages/Ajuda'
 import Configuracoes from './pages/Configuracoes'
 import Estatisticas from './pages/Estatisticas'
 import SideBar from './components/SideBar'
+import EsquecerSenha from './pages/esquecerSenha'
+
 import './App.css'  
 
 function App() {
@@ -19,7 +21,8 @@ function App() {
           <Route path="/conta" element={<Conta />} />
           <Route path="/configuracoes" element={<Configuracoes />} />
           <Route path="/estatisticas" element={<Estatisticas />} />
-          <Route path="/ajuda" element={<Ajuda />} />
+          <Route path="/ajuda" element={<Ajuda />} />          
+          <Route path="/EsquecerSenha" element={<EsquecerSenha />} />
         </Routes>
       </div>
     </div>
