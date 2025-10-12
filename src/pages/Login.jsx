@@ -9,8 +9,8 @@ const Login = () => {
      <div className="wrapper">
       <div className="form-header">
         <div className="titles">
-          <div className="title-login">ATHƎNA</div>
-          <div className="title-register">ATHƎNA</div>
+          <div className="titulo-login">ATHƎNA</div>
+          <div className="titulo-registro">ATHƎNA</div>
         </div>
       </div>
 
@@ -29,7 +29,7 @@ const Login = () => {
         <div className="form-cols">
           <div className="col-1"></div>
           <div className="col-2">
-            <a href="#">Esqueceu a senha?</a>
+            <a href="./esquecerSenha.jsx">Esqueceu a senha?</a>
           </div>
         </div>
         <div className="input-box">
@@ -41,7 +41,7 @@ const Login = () => {
         <div className="switch-form">
           <span>
             Não possui uma conta?{" "}
-            <a href="#" onClick={(e) => { e.preventDefault(); /* registerFunction() */ }}>
+            <a href="#" onClick={(e) => { e.preventDefault();  registerFunction()  }}>
               Cadastre-se
             </a>
           </span>
@@ -81,7 +81,7 @@ const Login = () => {
         <div className="switch-form">
           <span>
             Já possui uma conta?{" "}
-            <a href="#" onClick={(e) => { e.preventDefault(); /* loginFunction() */ }}>
+            <a href="#" onClick={(e) => { e.preventDefault();  loginFunction()  }}>
               Login
             </a>
           </span>
@@ -94,5 +94,5 @@ const Login = () => {
     </>
   )
 }
-
+ <script src="Login.js"></script>
 export default Login
