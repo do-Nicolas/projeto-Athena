@@ -9,6 +9,7 @@ import iconeLivro from '../assets/icone-livro-Png.png';
 import iconeConta from '../assets/icone-conta.png';
 import iconeSair from '../assets/icone-sair.png';
 import athenaLogo from '../assets/athena-logo.png';
+import { useClerk, useUser } from "@clerk/clerk-react";
 
 
 
@@ -16,6 +17,9 @@ import athenaLogo from '../assets/athena-logo.png';
 
 
 const Sidebar = () => {
+  const {user} = useUser();
+  const {openSignIn} = useClerk();
+  
   return (
     <div className="sidebar">
       {/* Logo */}
