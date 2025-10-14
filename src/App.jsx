@@ -30,11 +30,16 @@ function App() {
   const location = useLocation();
 
   const isApresentacao = location.pathname === "/bem-vindo";
+  if(isApresentacao){
+    return(
+      <div className="app">
+          <Routes>
+            <Route path="/bem-vindo" element={<Apresentacao />} />
+          </Routes>
+        </div>
+    );
+  }
 
-  // 🔒 Mostra a SideBar apenas se:
-  // - o Clerk já carregou
-  // - o usuário está logado
-  // - não está na tela de apresentação
   const showSidebar = isLoaded && isSignedIn && !isApresentacao;
 
   return (
