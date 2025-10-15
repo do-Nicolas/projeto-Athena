@@ -136,7 +136,11 @@
 
 }
 }
-
+@media screen and (max-width: 440px) {
+  .sidebar{
+    display: none;
+  }
+}
 
 .logout {
   color: red;

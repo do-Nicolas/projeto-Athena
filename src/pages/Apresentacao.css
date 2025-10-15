@@ -5,6 +5,7 @@
   min-height: 100vh;
   width: 100vw;
   font-family: "Jost", sans-serif;
+  overflow: auto;
 }
 
 /* Background com imagem */
@@ -45,7 +46,7 @@
 .text-overlay h1 {
   font-size: 6rem;
   font-weight: 700;
-  margin-bottom: 20px;
+  margin-bottom: 0px;
   letter-spacing: 2px;
   color: #222;
 
@@ -55,6 +56,7 @@
 .text-overlay p {
   font-size: 2rem;
   max-width: 700px;
+  margin-top: 0;
   margin-bottom: 35px;
   color: #333;
   line-height: 2.2rem;
@@ -74,6 +76,7 @@
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
   box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  margin-bottom: 10rem;
 }
 
 .text-overlay button:hover {
@@ -84,7 +87,7 @@
 
 /* Barra superior */
 .topBar {
-  width: 100vw;
+ width: 100vw;
   display: flex;
   flex-direction: row;
   text-align: left;
@@ -93,7 +96,15 @@
   background: #ffffff;
   font-size: 0.8rem;
   font-weight: 500;
-  z-index: 3;
+  position: fixed; /* Fixa a barra no topo */
+  top: 0; /* Fixa no topo da página */
+  left: 0; /* Garante que a barra fique alinhada à esquerda */
+  z-index: 10; /* Coloca a barra acima de outros elementos */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* Sombra para dar um efeito de destaque */
+}
+.topBar img{
+  height: 50px;
+  margin-top: 1%;
 }
 
 .topBar button {

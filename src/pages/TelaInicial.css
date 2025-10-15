@@ -7,27 +7,32 @@
   align-items: center;
   font-family: "Jost", sans-serif;
   width: 100%;
-  padding-bottom: 50px; /* evita que os botões fiquem colados no fim */
+  padding-bottom: 0.4rem;
+  box-sizing: border-box;
 }
 
 /* Título e bloco CRONOGRAMA */
 .cronograma-container {
   background-color: #FDE0CB;
   border-radius: 25px;
-  padding: 15px 30px;
+  padding: 1rem 2rem; /* Ajuste no padding */
   text-align: center;
-  margin-top: 30px;
+  margin-top: 1rem;
+  max-width: 100%;
 }
 
+/* Ajuste do tamanho do título */
 .cronograma-container h1 {
-  letter-spacing: 15px;
+  letter-spacing: 10px; /* Menos espaçamento entre letras */
   font-weight: 400;
   margin: 0;
+  font-size: 1.8rem; /* Tamanho de fonte menor */
+  word-wrap: break-word;
 }
 
 /* Área do calendário */
 .calendar-area {
-  margin-top: 25px;
+  margin-top: 1rem;
   display: flex;
   justify-content: center;
   width: 100%;
@@ -38,8 +43,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 60px;
-  margin-top: 30px;
+  gap: 2rem; /* Reduzi o gap entre os botões */
+  margin-top: 2rem;
+  flex-wrap: wrap; /* Permite que os botões quebrem para a linha seguinte */
+  width: 100%;
 }
 
 /* Botão Criar Matéria (azul) */
@@ -47,9 +54,9 @@
   background-color: #A6EFFF;
   border: none;
   border-radius: 15px;
-  padding: 12px 25px;
-  font-size: 2rem;
-  letter-spacing: 2px;
+  padding: 0.8rem 2rem; /* Menor padding */
+  font-size: 1.6rem; /* Fonte um pouco menor */
+  letter-spacing: 1px; /* Menos espaçamento entre letras */
   cursor: pointer;
   font-family: "Jost", sans-serif;
   transition: all 0.2s ease-in-out;
@@ -66,9 +73,9 @@
   background-color: #FDE0CB;
   border: none;
   border-radius: 15px;
-  padding: 12px 25px;
-  font-size: 2rem;
-  letter-spacing: 2px;
+  padding: 0.8rem 3.5rem; /* Ajuste no padding */
+  font-size: 1.6rem; /* Fonte um pouco menor */
+  letter-spacing: 1px; /* Menos espaçamento entre letras */
   cursor: pointer;
   font-family: "Jost", sans-serif;
   transition: all 0.2s ease-in-out;
@@ -78,4 +85,58 @@
 .botao-editar:hover {
   background-color: #f7cdb1;
   transform: scale(1.05);
+}
+
+/* Ajustes específicos para o FullCalendar */
+.fc-header-toolbar {
+  font-size: 1.4rem; /* Reduzir o tamanho da fonte do cabeçalho */
+}
+
+.fc-daygrid-day-number {
+  font-size: 1.2rem; /* Ajustar o tamanho dos números dos dias */
+}
+
+.fc-toolbar-title {
+  font-size: 1.6rem; /* Reduzir o tamanho do título do calendário */
+}
+
+/* Media Queries para telas maiores */
+@media (min-width: 768px) {
+  .botoes-container {
+    gap: 2.5rem; /* Ajuste no espaçamento */
+  }
+
+  .botao-criar {
+    font-size: 1.8rem;
+    padding: 1rem 2.5rem;
+  }
+
+  .botao-editar {
+    font-size: 1.8rem;
+    padding: 1rem 5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .cronograma-container h1 {
+    font-size: 2.4rem;
+  }
+
+  .botao-criar, .botao-editar {
+    font-size: 2rem;
+  }
+
+  .botoes-container {
+    gap: 3rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .botao-criar, .botao-editar {
+    font-size: 2.4rem;
+  }
+
+  .botoes-container {
+    gap: 4rem;
+  }
 }

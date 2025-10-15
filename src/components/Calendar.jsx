@@ -29,7 +29,7 @@ const Calendar = () => {
             center: "title",
             right: "",
           }}
-          height="auto"
+           contentHeight= "24rem"
           datesSet={handleDatesSet} // detecta mudança de mês
         />
        
