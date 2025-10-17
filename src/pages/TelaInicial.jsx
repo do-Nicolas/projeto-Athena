@@ -6,7 +6,7 @@ const TelaInicial = () => {
   return (
     <div className="main-content">
       <div className="telaInicial-page">
-        <div className="cronograma-container">
+        <div className="header-container">
           <h1>CRONOGRAMA</h1>
         </div>
 

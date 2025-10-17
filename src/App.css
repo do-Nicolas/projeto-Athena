@@ -6,6 +6,24 @@ margin: 0px;
   display: flex;
   height: 100vh;
 }
+.header-container {
+  background-color: #FDE0CB;
+  border-radius: 25px;
+  padding: 1rem 2rem;
+  text-align: center;
+  margin-top: 1rem;
+  max-width: 100%;
+}
+
+/* Ajuste do tamanho do título */
+.header-container h1 {
+  font-family: "Jost", sans-serif;
+  letter-spacing: 10px; /* Menos espaçamento entre letras */
+  font-weight: 400;
+  margin: 0;
+  font-size: 1.8rem; /* Tamanho de fonte menor */
+  word-wrap: break-word;
+}
 
 .main-content {
   margin-left: 100px; 
@@ -18,5 +36,8 @@ margin: 0px;
   margin-left: 40px; 
   
 }
+.header-container h1 {
+    font-size: 2.4rem;
+  }
 }
  

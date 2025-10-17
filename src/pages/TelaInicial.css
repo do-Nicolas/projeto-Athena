@@ -5,30 +5,13 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-family: "Jost", sans-serif;
   width: 100%;
   padding-bottom: 0.4rem;
   box-sizing: border-box;
 }
 
 /* Título e bloco CRONOGRAMA */
-.cronograma-container {
-  background-color: #FDE0CB;
-  border-radius: 25px;
-  padding: 1rem 2rem; /* Ajuste no padding */
-  text-align: center;
-  margin-top: 1rem;
-  max-width: 100%;
-}
 
-/* Ajuste do tamanho do título */
-.cronograma-container h1 {
-  letter-spacing: 10px; /* Menos espaçamento entre letras */
-  font-weight: 400;
-  margin: 0;
-  font-size: 1.8rem; /* Tamanho de fonte menor */
-  word-wrap: break-word;
-}
 
 /* Área do calendário */
 .calendar-area {
@@ -118,9 +101,7 @@
 }
 
 @media (min-width: 1024px) {
-  .cronograma-container h1 {
-    font-size: 2.4rem;
-  }
+  
 
   .botao-criar, .botao-editar {
     font-size: 2rem;
