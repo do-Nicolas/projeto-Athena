@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import "./ModalCriarMateria.css";
+import { SliderPicker } from "react-color";
 
 const ModalCriarMateria = ({ onClose }) => {
+    const [cor, setCor] = useState("#A6EFFF");
   return (
     <div className="main-content">
     <div className="modal-overlay">
@@ -27,11 +29,11 @@ const ModalCriarMateria = ({ onClose }) => {
             </select>
           </div>
 
-          <label>personalização</label>
-          <div className="color-row">
-            <input type="color" />
-            <div className="color-bar"></div>
-          </div>
+         <div className="input-group color-picker-group">
+         <label>Personalização</label>
+         <SliderPicker color={cor} onChange={(novaCor) => setCor(novaCor.hex)} />
+        </div>
+
 
           <button type="submit" className="botao-confirmar">
             confirmar
@@ -39,7 +41,7 @@ const ModalCriarMateria = ({ onClose }) => {
         </form>
       </div>
     </div>
-</div>
+    </div>
   );
 };
 
