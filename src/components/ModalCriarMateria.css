@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap');
+
+/* Fundo escuro transparente */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* Container principal */
+.modal-content {
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 25px 35px;
+  width: 400px;
+  position: relative;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  font-family: "Jost", sans-serif;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Botão fechar */
+.close-button {
+  position: absolute;
+  top: 8px;
+  right: 15px;
+  font-size: 24px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* Título */
+.modal-content h2 {
+  text-align: center;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+/* Formulário */
+.form-materia {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-materia label {
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 5px;
+}
+
+.form-materia input[type="text"],
+.form-materia textarea,
+.form-materia select {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-family: "Jost", sans-serif;
+  font-size: 14px;
+}
+
+.form-materia textarea {
+  resize: none;
+  height: 60px;
+}
+
+/* Linha de cor */
+.color-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.color-bar {
+  height: 6px;
+  flex: 1;
+  border-radius: 4px;
+  background: linear-gradient(
+    to right,
+    red,
+    orange,
+    yellow,
+    green,
+    cyan,
+    blue,
+    violet
+  );
+}
+
+/* Botão confirmar */
+.botao-confirmar {
+  background-color: #A6EFFF;
+  border: none;
+  border-radius: 12px;
+  padding: 10px;
+  margin-top: 15px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.2s ease-in-out;
+}
+
+.botao-confirmar:hover {
+  background-color: #89e2f5;
+}
