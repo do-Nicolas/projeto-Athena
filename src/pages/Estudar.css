@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap');
+
+.main-content {
+  font-family: "Jost", sans-serif;
+  padding: 20px;
+  flex: 1;
+}
+
+/* Título "Sábado" */
+.titulo-dia {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 300;
+  color: #666;
+  letter-spacing: 8px;
+  margin-bottom: 25px;
+}
+
+.deck-container {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  align-items: center;
+}
+
+/* Cada card */
+.deck-card {
+  width: 80%;
+  padding: 20px 25px;
+  border-radius: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 3px 6px rgb(0, 0, 0);
+}
+
+/* Nome do deck */
+.deck-nome {
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: white;
+}
+
+/* Botão iniciar dentro do card */
+.btn-iniciar {
+  background: rgba(255,255,255,0.5);
+  padding: 10px 25px;
+  border-radius: 20px;
+  border: 1px solid rgba(0,0,0,0.2);
+  font-size: 1rem;
+  color: #fff;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.btn-iniciar:hover {
+  background: rgba(255,255,255,0.8);
+  color: #333;
+}
+
+.btn-iniciar:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 rgba(0,0,0,0.4) !important; 
+}
+
+

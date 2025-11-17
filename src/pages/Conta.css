@@ -1,0 +1,11 @@
+.logo-avatar img{
+    border-radius: 50%;
+    width: 5rem;
+ }
+ .informations h2{
+    margin-bottom: 5px;
+ }
+ .informations .email p{
+    color: gray;
+    margin-top: 1px;
+ }

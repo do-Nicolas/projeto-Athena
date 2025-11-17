@@ -1,4 +1,5 @@
 import React from 'react'
+import './Estudar.css';
 
 const Estatisticas = () => {
   return (
