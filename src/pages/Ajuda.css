@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap');
+
+.main-content {
+  font-family: "Jost", sans-serif;
+  padding: 20px;
+  flex: 1;
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: 300;
+  margin-left: 30px;
+  margin-bottom: 20px;
+  color: #222;
+}
+
+/* container da lista */
+.faq-container {
+  margin-top: 20px;
+}
+
+/* item da lista */
+.faq-item {
+  background: #fff;
+  padding: 18px 25px;
+  border-bottom: 1px solid #e5e5e5;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.faq-item:hover {
+  background: #f7f7f7;
+}
+
+/* pergunta com seta */
+.faq-question {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1rem;
+  color: #222;
+  font-weight: 400;
+}
+
+/* seta animada */
+.arrow {
+  transition: transform 0.2s;
+}
+
+.arrow.open {
+  transform: rotate(90deg);
+}
+
+/* área da resposta */
+.faq-answer {
+  margin-top: 10px;
+  color: #555;
+  font-size: 0.95rem;
+  padding-right: 25px;
+}

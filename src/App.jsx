@@ -11,6 +11,7 @@ import Apresentacao from "./pages/Apresentacao";
 import SideBar from "./components/SideBar";
 
 import "./App.css";
+import Estudar from "./pages/Estudar";
 
 function ProtectedRoute({ children }) {
   const { isLoaded, isSignedIn } = useUser();
@@ -61,10 +62,10 @@ function App() {
             }
           />
           <Route
-            path="/revisar"
+            path="/estudar"
             element={
               <ProtectedRoute>
-                <Revisar />
+                <Estudar />
               </ProtectedRoute>
             }
           />

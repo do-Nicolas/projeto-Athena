@@ -27,7 +27,18 @@ const ModalCriarMateria = ({ onClose }) => {
               <option value="1sem">1 semestre</option>
               <option value="2sem">2 semestres</option>
             </select>
+            
           </div>
+          <label>Plano de estudos</label>
+          <div className="select-wrapper">
+            <select>
+              <option value="">selecionar</option>
+              <option value="1sem">enem</option>
+              <option value="2sem">fuveste</option>
+            </select>
+            
+          </div>
+          
 
          <div className="input-group color-picker-group">
          <label>Personalização</label>

@@ -35,10 +35,10 @@ const Sidebar = () => {
           Tela inicial
         </div>
         </NavLink>
-        <NavLink to="/revisar">
-          <img src={iconeLivro} alt="Revisar" className="menu-icon"/>
+        <NavLink to="/estudar">
+          <img src={iconeLivro} alt="Estudar" className="menu-icon"/>
           <div className="menuText">
-          Revisar
+          Estudar
           </div>
         </NavLink>
         <NavLink to="/estatisticas">
