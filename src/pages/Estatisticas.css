@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap');
+.main-content {
+  font-family: "Jost", sans-serif;
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* Card central */
+.estat-card {
+  background: #fff;
+  width: 1000px;
+  height:  800px;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.15);
+}
+
+/* Título */
+.estat-title {
+  font-size: 24px;
+  background: #f4cbb9;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  margin: 0;
+}
+
+
+
+/* Blocos de métricas */
+.estat-metrics {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 50px;
+}
+
+.estat-box {
+  width: 25%;
+  background: #f9e6d7;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.estat-value {
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* Gráfico */
+.estat-graph {
+  margin-top: 300px;
+  height: 220px;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  align-items: flex-end;
+}
+
+.estat-bar {
+  width: 70px;
+  border-radius: 6px;
+  position: relative;
+  color: #333;
+  text-align: center;
+  font-weight: bold;
+}
+
+.estat-bar span {
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.green {
+  height: 200px;
+  background: #98d495;
+}
+
+.red {
+  height: 120px;
+  background: #e98888;
+}
+
+/* Legenda */
+.estat-legend {
+    font-size: 20px;
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  font-weight: bold;
+}
+
+.green-label {
+  color: #3aa33a;
+}
+
+.red-label {
+  color: #d55;
+}
