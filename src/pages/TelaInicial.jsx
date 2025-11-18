@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import Calendar from "../components/Calendar";
 import ModalCriarMateria from "../components/ModalCriarMateria";
+import ModalEditarMateria from "../components/ModalEditarMateria"; // <-- IMPORTANTE
 import "./TelaInicial.css";
 
 const TelaInicial = () => {
-   const [showModal, setShowModal] = useState(false);
+  const [showModalCriar, setShowModalCriar] = useState(false);
+  const [showModalEditar, setShowModalEditar] = useState(false);
+
   return (
     <div className="main-content">
       <div className="telaInicial-page">
@@ -17,10 +20,32 @@ const TelaInicial = () => {
         </div>
 
         <div className="botoes-container">
-          <button className="botao-criar" onClick={() => setShowModal(true)}>criar matéria</button>
-          <button className="botao-editar">editar</button>
+          {/* Botão criar */}
+          <button
+            className="botao-criar"
+            onClick={() => setShowModalCriar(true)}
+          >
+            criar matéria
+          </button>
+
+          {/* Botão editar */}
+          <button
+            className="botao-editar"
+            onClick={() => setShowModalEditar(true)}
+          >
+            editar
+          </button>
         </div>
-         {showModal && <ModalCriarMateria onClose={() => setShowModal(false)} />}
+
+        {/* MODAL: Criar matéria */}
+        {showModalCriar && (
+          <ModalCriarMateria onClose={() => setShowModalCriar(false)} />
+        )}
+
+        {/* MODAL: Editar matéria */}
+        {showModalEditar && (
+          <ModalEditarMateria onClose={() => setShowModalEditar(false)} />
+        )}
       </div>
     </div>
   );

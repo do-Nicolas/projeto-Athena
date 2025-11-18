@@ -1,0 +1,179 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap');
+
+/* ==============================
+   OVERLAY (FUNDO ESCURO)
+   — cobre toda a tela, inclusive a sidebar
+============================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 220px; /* largura da sidebar padrão */
+  width: calc(100vw - 220px);
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  transition: left 0.3s ease, width 0.3s ease;
+}
+
+@keyframes fadeInOverlay {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ==============================
+   CONTEÚDO DO MODAL
+============================== */
+.modal-content {
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 25px 35px;
+  width: 420px;
+  max-height: 85vh; /* limite de altura */
+  overflow-y: auto; /* adiciona scroll interno */
+  position: relative;
+  font-family: "Jost", sans-serif;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  animation: fadeInModal 0.25s ease-in-out;
+}
+.modal-content h2{
+    letter-spacing: 3px;
+}
+
+@keyframes fadeInModal {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Estiliza o scroll interno do modal */
+.modal-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+  background-color: #aaa;
+}
+
+/* Botão fechar */
+.close-button {
+  position: absolute;
+  top: 8px;
+  right: 15px;
+  font-size: 24px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.close-button:hover {
+  transform: scale(1.1);
+}
+
+/* Título */
+.modal-content h2 {
+  text-align: center;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+/* Formulário */
+.form-materia {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-materia label {
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 5px;
+}
+
+.form-materia input[type="text"],
+.form-materia textarea,
+.form-materia select {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-family: "Jost", sans-serif;
+  font-size: 14px;
+}
+.form-materia select {
+    padding-right: 20rem;
+}
+
+.form-materia textarea {
+  resize: none;
+  height: 60px;
+}
+
+/* Linha colorida decorativa */
+.color-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.color-bar {
+  height: 6px;
+  flex: 1;
+  border-radius: 4px;
+  background: linear-gradient(
+    to right,
+    red,
+    orange,
+    yellow,
+    green,
+    cyan,
+    blue,
+    violet
+  );
+}
+
+/* Botão confirmar */
+.botao-confirmar {
+  background-color: #A6EFFF;
+  border: none;
+  border-radius: 12px;
+  padding: 10px;
+  margin-top: 15px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.2s ease-in-out;
+}
+
+.botao-confirmar:hover {
+  background-color: #89e2f5;
+}
+
+/* ==============================
+   RESPONSIVIDADE
+============================== */
+@media screen and (max-width: 600px) {
+  .modal-content {
+    width: 90%;
+    max-height: 80vh;
+    padding: 20px;
+  }
+  .form-materia select {
+    width: 100%;
+}
+}
