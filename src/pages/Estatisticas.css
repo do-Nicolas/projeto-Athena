@@ -1,11 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap');
-.main-content {
-  font-family: "Jost", sans-serif;
-  padding: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-}
+
 
 /* Card central */
 .estat-card {
@@ -15,6 +9,8 @@
   padding: 30px;
   border-radius: 12px;
   box-shadow: 0 0 10px rgba(0,0,0,0.15);
+  
+  
 }
 
 /* Título */
