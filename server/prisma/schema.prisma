@@ -1,0 +1,149 @@
+// prisma/schema.prisma
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model StudyPlan {
+  id          String    @id @default(uuid())
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+
+  subjects    Subject[]
+  sessions    StudySession[]
+}
+
+model Subject {
+  id             String   @id @default(uuid())
+  name           String
+  description    String?
+  conclusionTime String
+  color          String
+  createdAt      DateTime @default(now())
+  
+planId String?        // torna o campo nullable
+plan   StudyPlan? @relation(fields: [planId], references: [id])
+
+
+  topics       Topic[]
+  sessionItems SessionItem[]
+}
+
+model Topic {
+  id          String   @id @default(uuid())
+  subjectId   String
+  title       String
+  description String?
+  createdAt   DateTime @default(now())
+
+  subject      Subject       @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  flashcards   Card[]        @relation("TopicCards")
+  sessionItems SessionItem[]
+}
+
+model StudySession {
+  id             String   @id @default(uuid())
+  userId         String
+  planId         String?
+  title          String?
+  startAt        DateTime
+  endAt          DateTime
+  isRecurring    Boolean  @default(false)
+  recurrenceRule String?
+  createdAt      DateTime @default(now())
+
+  plan  StudyPlan?    @relation(fields: [planId], references: [id], onDelete: SetNull)
+  items SessionItem[]
+}
+
+model SessionItem {
+  id        String  @id @default(uuid())
+  sessionId String
+  subjectId String?
+  topicId   String?
+  notes     String?
+
+  session StudySession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  subject Subject?     @relation(fields: [subjectId], references: [id], onDelete: SetNull)
+  topic   Topic?       @relation(fields: [topicId], references: [id], onDelete: SetNull)
+}
+
+model Deck {
+  id          String   @id @default(uuid())
+  userId      String
+  title       String
+  description String?
+  createdAt   DateTime @default(now())
+
+  cards Card[]
+}
+
+model Card {
+  id           String    @id @default(uuid())
+  deckId       String
+  topicId      String?
+  front        String
+  back         String?
+  createdAt    DateTime  @default(now())
+  easiness     Float     @default(2.5)
+  repetitions  Int       @default(0)
+  interval     Int       @default(0)
+  dueDate      DateTime  @default(now())
+  lastReviewed DateTime?
+  isSuspended  Boolean   @default(false)
+
+  deck        Deck         @relation(fields: [deckId], references: [id], onDelete: Cascade)
+  topic       Topic?       @relation("TopicCards", fields: [topicId], references: [id], onDelete: SetNull)
+  reviews     CardReview[]
+  tags        CardTag[]
+  attachments Attachment[]
+}
+
+model CardReview {
+  id                  String   @id @default(uuid())
+  cardId              String
+  userId              String
+  reviewAt            DateTime @default(now())
+  quality             Int
+  previousEasiness    Float?
+  previousRepetitions Int?
+  previousInterval    Int?
+  notes               String?
+
+  card Card @relation(fields: [cardId], references: [id], onDelete: Cascade)
+}
+
+model Tag {
+  id     String @id @default(uuid())
+  userId String
+  name   String
+
+  cards CardTag[]
+
+  @@unique([userId, name])
+}
+
+model CardTag {
+  card   Card   @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  cardId String
+  tag    Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  tagId  String
+
+  @@id([cardId, tagId])
+}
+
+model Attachment {
+  id          String   @id @default(uuid())
+  cardId      String
+  userId      String?
+  url         String
+  contentType String?
+  createdAt   DateTime
+
+  card Card @relation(fields: [cardId], references: [id], onDelete: Cascade)
+}

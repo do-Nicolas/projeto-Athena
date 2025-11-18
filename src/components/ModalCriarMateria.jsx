@@ -2,56 +2,96 @@ import React, { useState } from "react";
 import "./ModalCriarMateria.css";
 import { SliderPicker } from "react-color";
 
-const ModalCriarMateria = ({ onClose }) => {
-    const [cor, setCor] = useState("#A6EFFF");
+const ModalCriarMateria = ({ onClose, planId }) => {
+  const [nome, setNome] = useState("");
+  const [descricao, setDescricao] = useState("");
+  const [conclusao, setConclusao] = useState("");
+  const [cor, setCor] = useState("#A6EFFF");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+   
+      const response = await fetch("http://localhost:3001/api/subjects", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          plan_id: planId,
+          name: nome,
+          description: descricao,
+          conclusion_time: conclusao,
+          color: cor,
+        }),
+      });
+
+     if (!response.ok) {
+  const text = await response.text();
+  console.error("STATUS:", response.status);
+  console.error("RESPOSTA DO SERVIDOR:", text);
+  throw new Error("Erro ao criar matéria");
+}
+
+
+      onClose();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <div className="main-content">
-    <div className="modal-overlay">
-      <div className="modal-content">
-        <button className="close-button" onClick={onClose}>
-          ×
-        </button>
-        <h2>Criar Matéria</h2>
+      <div className="modal-overlay">
+        <div className="modal-content">
+          <button className="close-button" onClick={onClose}>
+            ×
+          </button>
+          <h2>Criar Matéria</h2>
 
-        <form className="form-materia">
-          <label>Nome</label>
-          <input type="text" placeholder="adicione um nome para sua matéria" />
+          <form className="form-materia" onSubmit={handleSubmit}>
+            <label>Nome</label>
+            <input
+              type="text"
+              placeholder="Adicione um nome para sua matéria"
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
+              required
+            />
 
-          <label>descrição (opcional)</label>
-          <textarea placeholder="Fale sobre o conteúdo da sua matéria" />
+            <label>Descrição (opcional)</label>
+            <textarea
+              placeholder="Fale sobre o conteúdo da sua matéria"
+              value={descricao}
+              onChange={(e) => setDescricao(e.target.value)}
+            />
 
-          <label>data de conclusão</label>
-          <div className="select-wrapper">
-            <select>
-              <option value="">selecionar</option>
+            <label>Tempo até conclusão</label>
+            <select
+              value={conclusao}
+              onChange={(e) => setConclusao(e.target.value)}
+              required
+            >
+              <option value="">Selecionar</option>
               <option value="1sem">1 semestre</option>
               <option value="2sem">2 semestres</option>
             </select>
-            
-          </div>
-          <label>Plano de estudos</label>
-          <div className="select-wrapper">
-            <select>
-              <option value="">selecionar</option>
-              <option value="1sem">enem</option>
-              <option value="2sem">fuveste</option>
-            </select>
-            
-          </div>
-          
 
-         <div className="input-group color-picker-group">
-         <label>Personalização</label>
-         <SliderPicker color={cor} onChange={(novaCor) => setCor(novaCor.hex)} />
+            <label>Personalização</label>
+            <div className="input-group color-picker-group">
+              <SliderPicker
+                color={cor}
+                onChange={(novaCor) => setCor(novaCor.hex)}
+              />
+            </div>
+
+            <button type="submit" className="botao-confirmar">
+              Confirmar
+            </button>
+          </form>
         </div>
-
-
-          <button type="submit" className="botao-confirmar">
-            confirmar
-          </button>
-        </form>
       </div>
-    </div>
     </div>
   );
 };

@@ -1,46 +1,74 @@
-import React from 'react';
-import './Estudar.css';
-import { darkenColor } from '../utils/ColorUtils'; // IMPORTOU A FUNÇÃO
-
-const decks = [
-  { nome: "English deck", cor: "#90EBF5" },
-  { nome: "Revolução deck", cor: "#d9a886" },
-  { nome: "Celulas deck", cor: "#9df86d" },
-];
+import React, { useEffect, useState } from "react";
+import "./Estudar.css";
+import { darkenColor } from "../utils/ColorUtils";
 
 const Estudar = () => {
+  const [subjects, setSubjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const diasDaSemana = [
+    "Domingo",
+    "Segunda-feira",
+    "Terça-feira",
+    "Quarta-feira",
+    "Quinta-feira",
+    "Sexta-feira",
+    "Sábado"
+  ];
+
+  const hoje = new Date();
+  const diaSemana = diasDaSemana[hoje.getDay()];
+
+  useEffect(() => {
+    fetch("http://localhost:3001/api/subjects")
+      .then((res) => res.json())
+      .then((data) => {
+        setSubjects(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Erro ao buscar matérias:", err);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) return <p>Carregando matérias...</p>;
+
   return (
     <div className="main-content">
-      <h1 className="titulo-dia">Sábado</h1>
+      <h1 className="titulo-dia">{diaSemana}</h1>
 
       <div className="deck-container">
-        {decks.map((deck, index) => {
-          const sombra = darkenColor(deck.cor, 60);
+        {subjects.length === 0 ? (
+          <p>Você ainda não possui matérias</p>
+        ) : (
+          subjects.map((subject) => {
+            const sombra = darkenColor(subject.color, 60);
 
-          return (
-            <div
-              key={index}
-              className="deck-card"
-              style={{
-                backgroundColor: deck.cor,
-                boxShadow: `0 4px 0 ${sombra}`,
-              }}
-            >
-              <span className="deck-nome">{deck.nome}</span>
-              <button
-                className="btn-iniciar"
+            return (
+              <div
+                key={subject.id}
+                className="deck-card"
                 style={{
-                    backgroundColor: deck.cor,
-                    boxShadow: `0 6px 0 ${sombra}`, // sombra sólida maior embaixo
-                    color: "white",
+                  backgroundColor: subject.color,
+                  boxShadow: `0 4px 0 ${sombra}`
                 }}
+              >
+                <span className="deck-nome">{subject.name}</span>
+                <button
+                  className="btn-iniciar"
+                  style={{
+                    backgroundColor: subject.color,
+                    boxShadow: `0 6px 0 ${sombra}`,
+                    color: "white"
+                  }}
                 >
-                iniciar
+                  Iniciar
                 </button>
-
-            </div>
-          );
-        })}
+              </div>
+            );
+          })
+        )}
       </div>
     </div>
   );
