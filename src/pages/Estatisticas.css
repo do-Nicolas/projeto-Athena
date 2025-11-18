@@ -1,18 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap');
+
+/* NÃO ALTERAR main-content */
 .main-content {
   font-family: "Jost", sans-serif;
-  padding: 40px;
-  justify-content: center;
-  align-items: flex-start;
 }
 
-/* Card central */
+/* Card principal */
 .estat-card {
-  margin-left:250px;
   background: #fff;
-  width: 1000px;
-  height:  800px;
+  width: 100%;
+  max-width: 1000px;
   padding: 30px;
+  margin: 0 auto;
   border-radius: 12px;
   box-shadow: 0 0 10px rgba(0,0,0,0.15);
 }
@@ -27,32 +26,31 @@
   margin: 0;
 }
 
-
-
-/* Blocos de métricas */
+/* Área das métricas */
 .estat-metrics {
   display: flex;
   justify-content: space-between;
   margin-top: 50px;
+  width: 100%;
 }
 
 .estat-box {
-  width: 25%;
+  width: 30%;
   background: #f9e6d7;
-  padding: 10px;
+  padding: 15px;
   border-radius: 8px;
   text-align: center;
 }
 
 .estat-value {
-  font-size: 26px;
+  font-size: 28px;
   font-weight: bold;
   margin-bottom: 5px;
 }
 
 /* Gráfico */
 .estat-graph {
-  margin-top: 300px;
+  margin-top: 80px;
   height: 220px;
   display: flex;
   justify-content: center;
@@ -86,10 +84,10 @@
   background: #e98888;
 }
 
-/* Legenda */
+/* Legenda abaixo */
 .estat-legend {
-    font-size: 20px;
-  margin-top: 15px;
+  font-size: 20px;
+  margin-top: 20px;
   display: flex;
   justify-content: center;
   gap: 50px;
@@ -102,4 +100,108 @@
 
 .red-label {
   color: #d55;
+}
+
+/* =======================================================
+   RESPONSIVIDADE
+========================================================= */
+
+/* Tablets médios */
+@media screen and (max-width: 1000px) {
+  .estat-card {
+    padding: 25px;
+  }
+
+  .estat-metrics {
+    gap: 15px;
+  }
+
+  .estat-box {
+    width: 32%;
+  }
+
+  .estat-bar {
+    width: 55px;
+  }
+
+  .estat-graph {
+    margin-top: 60px;
+    gap: 30px;
+  }
+}
+
+/* Tablets pequenos */
+@media screen and (max-width: 780px) {
+
+  /* As métricas viram coluna */
+  .estat-metrics {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .estat-box {
+    width: 80%;
+  }
+
+  .estat-bar {
+    width: 50px;
+  }
+
+  .estat-graph {
+    margin-top: 60px;
+    gap: 25px;
+  }
+}
+
+/* Smartphones */
+@media screen and (max-width: 500px) {
+
+  .estat-title {
+    font-size: 20px;
+  }
+
+  .estat-box {
+    width: 95%;
+    padding: 12px;
+  }
+
+  .estat-value {
+    font-size: 22px;
+  }
+
+  .estat-graph {
+    margin-top: 50px;
+    gap: 20px;
+  }
+
+  .estat-bar {
+    width: 40px;
+  }
+
+  .estat-bar span {
+    font-size: 12px;
+  }
+
+  .estat-legend {
+    font-size: 16px;
+    gap: 25px;
+  }
+}
+
+/* Telas muito pequenas */
+@media screen and (max-width: 380px) {
+
+  .estat-bar {
+    width: 35px;
+  }
+
+  .estat-bar span {
+    top: -18px;
+  }
+
+  .estat-legend {
+    font-size: 14px;
+    gap: 20px;
+  }
 }
