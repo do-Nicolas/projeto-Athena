@@ -2,13 +2,13 @@
 .main-content {
   font-family: "Jost", sans-serif;
   padding: 40px;
-  display: flex;
   justify-content: center;
   align-items: flex-start;
 }
 
 /* Card central */
 .estat-card {
+  margin-left:250px;
   background: #fff;
   width: 1000px;
   height:  800px;
