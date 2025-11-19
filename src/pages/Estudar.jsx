@@ -32,7 +32,7 @@ const Estudar = () => {
       });
   }, []);
 
-  if (loading) return <p>Carregando matérias...</p>;
+  if (loading) return <div className="main-content"><p>Carregando matérias...</p></div>
 
   return (
     <div className="main-content">

@@ -42,4 +42,25 @@ export const createSubject = async (req, res) => {
   }
 };
 
+export const deleteSubject = async (req, res) => {
+  try {
+    const { id } = req.params;
 
+    console.log("🗑️ Tentando excluir ID:", id);
+
+    const deleted = await prisma.subject.delete({
+      where: { id }, // <-- SEM Number()
+    });
+
+    console.log("✔️ Deletado:", deleted);
+
+    res.json({ message: "Matéria excluída com sucesso" });
+
+  } catch (error) {
+    console.error("❌ ERRO AO DELETAR:", error);
+    res.status(500).json({
+      error: "Erro ao deletar matéria",
+      message: error.message,
+    });
+  }
+};

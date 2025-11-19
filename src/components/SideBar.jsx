@@ -47,16 +47,16 @@ const Sidebar = () => {
           <div className="menuText">Estudar</div>
         </NavLink>
 
-        <NavLink to="/estatisticas">
+        {/* <NavLink to="/estatisticas">
           <img src={iconeEstatistica} alt="Estatísticas" className="menu-icon" />
           <div className="menuText">Estatísticas</div>
         </NavLink>
-
+    
         <NavLink to="/configuracoes">
           <img src={iconeConfig} alt="Configurações" className="menu-icon" />
           <div className="menuText">Config.</div>
         </NavLink>
-
+*/}
         <NavLink to="/ajuda">
           <img src={iconeAjuda} alt="Ajuda" className="menu-icon" />
           <div className="menuText">Ajuda</div>

@@ -1,27 +1,34 @@
 import React, { useEffect, useState } from "react";
-import "./ModalEditarMateria.css"; // usa o MESMO css
+import "./ModalEditarMateria.css";
+
 import { FaTrash } from "react-icons/fa";
+import FlashcardCriar from "./FlashcardCriar";
 
 const ModalEditarMateria = ({ onClose }) => {
+
   const [subjects, setSubjects] = useState([]);
   const [selectedSubject, setSelectedSubject] = useState(null);
 
   const [flashcards, setFlashcards] = useState([]);
   const [selectedFlashcard, setSelectedFlashcard] = useState("");
 
+  const [showModalFlashCard, setShowModalFlashCard] = useState(false);
+
   // Buscar matérias
   useEffect(() => {
-    
+    carregarMaterias();
+  }, []);
+
+  const carregarMaterias = () => {
     fetch("http://localhost:3001/api/subjects")
       .then((res) => res.json())
       .then((data) => setSubjects(data))
       .catch((err) => console.error("Erro ao carregar matérias:", err));
-  }, []);
+  };
 
-
-useEffect(() => {
-  console.log("MATÉRIAS CARREGADAS:", subjects);
-}, [subjects]);
+  useEffect(() => {
+    console.log("MATÉRIAS CARREGADAS:", subjects);
+  }, [subjects]);
 
   // Buscar flashcards QUANDO selecionar matéria
   useEffect(() => {
@@ -45,10 +52,16 @@ useEffect(() => {
         method: "DELETE",
       });
 
+      // Remove a matéria do estado sem precisar recarregar página
+      setSubjects((prev) => prev.filter((s) => s.id !== selectedSubject.id));
+      setSelectedSubject(null);
+      setSelectedFlashcard("");
+
       alert("Matéria excluída!");
-      onClose();
+
     } catch (err) {
       console.error("Erro ao excluir matéria:", err);
+      alert("Erro ao excluir!");
     }
   };
 
@@ -67,7 +80,7 @@ useEffect(() => {
           <select
             value={selectedSubject?.id || ""}
             onChange={(e) => {
-              const subj = subjects.find((s) => s.id === e.target.value);;
+              const subj = subjects.find((s) => s.id === e.target.value);
               setSelectedSubject(subj);
               setSelectedFlashcard("");
             }}
@@ -108,7 +121,7 @@ useEffect(() => {
                     cursor: "pointer",
                     fontSize: "18px",
                   }}
-                  onClick={() => (window.location.href = "/criar-flashcard")}
+                  onClick={() => setShowModalFlashCard(true)}
                 >
                   +
                 </button>
@@ -136,6 +149,12 @@ useEffect(() => {
             </>
           )}
         </div>
+
+        {/* MODAL: Criar flashcard */}
+        {showModalFlashCard && (
+          <FlashcardCriar onClose={() => setShowModalFlashCard(false)} />
+        )}
+
       </div>
     </div>
   );
