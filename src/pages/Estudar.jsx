@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./Estudar.css";
 import { darkenColor } from "../utils/ColorUtils";
+import { useUser } from "@clerk/clerk-react";   // 🔥 IMPORTANTE
 
 const Estudar = () => {
+  const { user } = useUser(); // pega o usuário logado
+
   const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -20,7 +23,13 @@ const Estudar = () => {
   const diaSemana = diasDaSemana[hoje.getDay()];
 
   useEffect(() => {
-    fetch("http://localhost:3001/api/subjects")
+    if (!user) return; // espera o Clerk carregar
+
+    fetch("http://localhost:3001/api/subjects", {
+      headers: {
+        "x-user-id": user.id,   // 🔥 ENVIA O ID DO USUÁRIO
+      }
+    })
       .then((res) => res.json())
       .then((data) => {
         setSubjects(data);
@@ -30,9 +39,15 @@ const Estudar = () => {
         console.error("Erro ao buscar matérias:", err);
         setLoading(false);
       });
-  }, []);
+  }, [user]); // só executa quando o usuário for carregado
 
-  if (loading) return <div className="main-content"><p>Carregando matérias...</p></div>
+  if (loading) {
+    return (
+      <div className="main-content">
+        <p>Carregando matérias...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="main-content">

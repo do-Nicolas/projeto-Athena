@@ -1,41 +1,42 @@
 import React, { useState } from "react";
 import "./ModalCriarMateria.css";
 import { SliderPicker } from "react-color";
+import { useUser } from "@clerk/clerk-react";   // 🔥 IMPORTANTE
 
 const ModalCriarMateria = ({ onClose, planId }) => {
+  const { user } = useUser(); // 🔥 pega o usuário atual do Clerk
+
   const [nome, setNome] = useState("");
   const [descricao, setDescricao] = useState("");
   const [conclusao, setConclusao] = useState("");
   const [cor, setCor] = useState("#A6EFFF");
 
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-   
       const response = await fetch("http://localhost:3001/api/subjects", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          plan_id: planId,
-          name: nome,
-          description: descricao,
-          conclusion_time: conclusao,
-          color: cor,
-        }),
+          body: JSON.stringify({
+        userId: user.id,
+        planId: planId,
+        name: nome,
+        description: descricao,
+        conclusionTime: conclusao,
+        color: cor,
+      }),
+
       });
 
-     if (!response.ok) {
-  const text = await response.text();
-  console.error("STATUS:", response.status);
-  console.error("RESPOSTA DO SERVIDOR:", text);
-  throw new Error("Erro ao criar matéria");
-}
-
+      if (!response.ok) {
+        const text = await response.text();
+        console.error("STATUS:", response.status);
+        console.error("RESPOSTA DO SERVIDOR:", text);
+        throw new Error("Erro ao criar matéria");
+      }
 
       onClose();
     } catch (err) {

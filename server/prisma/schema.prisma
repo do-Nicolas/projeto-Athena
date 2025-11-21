@@ -26,14 +26,17 @@ model Subject {
   conclusionTime String
   color          String
   createdAt      DateTime @default(now())
-  
-planId String?        // torna o campo nullable
-plan   StudyPlan? @relation(fields: [planId], references: [id])
 
+  userId         String   // <---- ISSO PRECISA EXISTIR
 
-  topics       Topic[]
-  sessionItems SessionItem[]
+  planId         String?
+  plan           StudyPlan? @relation(fields: [planId], references: [id])
+
+  topics         Topic[]
+  sessionItems   SessionItem[]
 }
+
+
 
 model Topic {
   id          String   @id @default(uuid())
