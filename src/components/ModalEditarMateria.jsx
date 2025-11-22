@@ -3,9 +3,11 @@ import "./ModalEditarMateria.css";
 
 import { FaTrash } from "react-icons/fa";
 import FlashcardCriar from "./FlashcardCriar";
+import { useUser } from "@clerk/clerk-react";
 
 const ModalEditarMateria = ({ onClose }) => {
 
+  const { user } = useUser();
   const [subjects, setSubjects] = useState([]);
   const [selectedSubject, setSelectedSubject] = useState(null);
 
@@ -20,7 +22,11 @@ const ModalEditarMateria = ({ onClose }) => {
   }, []);
 
   const carregarMaterias = () => {
-    fetch("http://localhost:3001/api/subjects")
+    fetch("http://localhost:3001/api/subjects", {
+      headers: {
+        "x-user-id": user.id,   // 🔥 ENVIA O ID DO USUÁRIO
+      }
+    })
       .then((res) => res.json())
       .then((data) => setSubjects(data))
       .catch((err) => console.error("Erro ao carregar matérias:", err));

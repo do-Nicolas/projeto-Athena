@@ -2,7 +2,7 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import { useUser } from "@clerk/clerk-react";
 
 import TelaInicial from "./pages/TelaInicial";
-import Revisar from "./pages/Revisar";
+import Editar from "./pages/Editar";
 import Conta from "./pages/Conta";
 import Ajuda from "./pages/Ajuda";
 import Configuracoes from "./pages/Configuracoes";
@@ -98,6 +98,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Ajuda />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/editar"
+            element={
+              <ProtectedRoute>
+                <Editar />
               </ProtectedRoute>
             }
           />

@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import Calendar from "../components/Calendar";
 import ModalCriarMateria from "../components/ModalCriarMateria";
-import ModalEditarMateria from "../components/ModalEditarMateria"; // <-- IMPORTANTE
+import { useNavigate } from "react-router-dom";
 import "./TelaInicial.css";
 
 const TelaInicial = () => {
   const [showModalCriar, setShowModalCriar] = useState(false);
   const [showModalEditar, setShowModalEditar] = useState(false);
+  const navigate = useNavigate(); // Navegação
 
   return (
     <div className="main-content">
@@ -31,7 +32,7 @@ const TelaInicial = () => {
           {/* Botão editar */}
           <button
             className="botao-editar"
-            onClick={() => setShowModalEditar(true)}
+            onClick={() => navigate("/editar")} // Navega para /editar
           >
             editar
           </button>
@@ -40,11 +41,6 @@ const TelaInicial = () => {
         {/* MODAL: Criar matéria */}
         {showModalCriar && (
           <ModalCriarMateria onClose={() => setShowModalCriar(false)} />
-        )}
-
-        {/* MODAL: Editar matéria */}
-        {showModalEditar && (
-          <ModalEditarMateria onClose={() => setShowModalEditar(false)} />
         )}
       </div>
     </div>
