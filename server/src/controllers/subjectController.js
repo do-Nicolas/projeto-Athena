@@ -3,7 +3,6 @@ import { prisma } from "../prisma.js";
 export const getAllSubjects = async (req, res) => {
   try {
     const userId = req.headers["x-user-id"];
-
     let subjects;
 
     if (userId) {
@@ -14,24 +13,19 @@ export const getAllSubjects = async (req, res) => {
     } else {
       // 👀 Modo DEBUG: permite acessar pelo navegador
       console.warn("⚠️ Nenhum userId enviado — retornando todas as matérias (modo debug)");
-
       subjects = await prisma.subject.findMany(); // sem filtro
     }
 
     res.json(subjects);
-
   } catch (error) {
     console.error("Erro no getAllSubjects:", error);
     res.status(500).json({ error: "Erro ao buscar matérias" });
   }
 };
 
-
-
 export const createSubject = async (req, res) => {
   try {
-    const { name, description, conclusion_time, color, plan_id, userId } = req.body;
-
+    const { name, description, conclusionTime, color, planId, userId } = req.body;
     console.log("📥 Body recebido:", req.body);
 
     if (!userId) {
@@ -42,35 +36,30 @@ export const createSubject = async (req, res) => {
       data: {
         name,
         description,
-        conclusionTime: conclusion_time,
+        conclusionTime,
         color,
-        planId: plan_id,
-        userId
-      }
+        planId,
+        userId,
+      },
     });
 
     res.status(201).json(subject);
-
   } catch (error) {
     res.status(500).json({ error: "Erro no Prisma", details: error.message });
   }
 };
 
-
 export const deleteSubject = async (req, res) => {
   try {
     const { id } = req.params;
-
     console.log("🗑️ Tentando excluir ID:", id);
 
     const deleted = await prisma.subject.delete({
-      where: { id }, 
+      where: { id },
     });
 
     console.log("✔️ Deletado:", deleted);
-
     res.json({ message: "Matéria excluída com sucesso" });
-
   } catch (error) {
     console.error("❌ ERRO AO DELETAR:", error);
     res.status(500).json({
