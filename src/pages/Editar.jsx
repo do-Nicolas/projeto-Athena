@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Editar.css";
 import { FiEdit2, FiTrash2 } from "react-icons/fi";
 import { useUser } from "@clerk/clerk-react";
+import FlashcardCriar from "../components/FlashcardCriar"; // ← IMPORTANTE
 
 const EditarMateria = () => {
   const { user } = useUser();
@@ -11,19 +12,17 @@ const EditarMateria = () => {
   const [selectedSubject, setSelectedSubject] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Buscar matérias
+  // Controle do modal de flashcard
+  const [showFlashcardModal, setShowFlashcardModal] = useState(false);
+
   useEffect(() => {
     if (!user) return;
 
     const fetchSubjects = async () => {
       try {
         const res = await fetch("http://localhost:3001/api/subjects", {
-          headers: {
-            "x-user-id": user.id,
-          },
+          headers: { "x-user-id": user.id },
         });
-
-        if (!res.ok) throw new Error("Falha ao buscar matérias");
 
         const data = await res.json();
         setSubjects(data);
@@ -35,13 +34,47 @@ const EditarMateria = () => {
     };
 
     fetchSubjects();
-  }, [user]);
+  }, [user]); 
 
-  // Atualizar conteúdo da matéria
   useEffect(() => {
     const found = subjects.find((s) => s.id === selectedSubjectId);
     setSelectedSubject(found || null);
   }, [selectedSubjectId, subjects]);
+
+  // Salvar flashcard no servidor
+  const handleSaveFlashcard = async ({ frente, verso, cor }) => {
+    if (!selectedSubject) return;
+
+    try {
+      const res = await fetch("http://localhost:3001/api/flashcards", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          subject_id: selectedSubject.id,
+          front: frente,
+          back: verso,
+          color: cor,
+        }),
+      });
+
+      if (!res.ok) throw new Error("Erro ao criar flashcard");
+
+      // Atualiza visualmente a lista após salva
+      setSubjects((prev) =>
+        prev.map((s) =>
+          s.id === selectedSubject.id
+            ? { ...s, flashcards: [...s.flashcards, { front: frente, back: verso, color: cor }] }
+            : s
+        )
+      );
+
+      setShowFlashcardModal(false);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   if (loading) {
     return (
@@ -54,13 +87,17 @@ const EditarMateria = () => {
   return (
     <div className="main-content">
       <div className="editar-container">
-        
-        {/* Título */}
-        <div className="titulo-box">
-          escolha a matéria que você deseja editar
-        </div>
 
-        {/* SELECT */}
+        {showFlashcardModal && (
+          <FlashcardCriar
+            onClose={() => setShowFlashcardModal(false)}
+            onSave={handleSaveFlashcard}
+            subjectId={selectedSubject?.id}
+          />
+        )}
+
+        <div className="titulo-box">escolha a matéria que você deseja editar</div>
+
         <select
           className="select-materia"
           value={selectedSubjectId}
@@ -74,67 +111,59 @@ const EditarMateria = () => {
           ))}
         </select>
 
-        {/* CONTEÚDO */}
         {selectedSubject && (
           <div className="conteudo-edicao">
-            
-            {/* Nome */}
+
             <div className="campo-linha">
               <h2>{selectedSubject.name}</h2>
               <button className="icon-btn"><FiEdit2 /></button>
             </div>
 
-            {/* Descrição */}
             <div className="campo-linha">
               <p className="descricao">{selectedSubject.description}</p>
               <button className="icon-btn"><FiEdit2 /></button>
             </div>
 
-            {/* Data de conclusão */}
             <h3 className="subtitulo">data de conclusão</h3>
             <p>{selectedSubject.conclusionTime || "não definida"}</p>
 
-            {/* Flashcards */}
             <h3 className="subtitulo">flashcards</h3>
 
             <div className="flashcard-lista">
               {(selectedSubject.flashcards || []).map((fc) => (
                 <div key={fc.id} className="flashcard-item">
-                  <span>{fc.title}</span>
-                  <button className="icon-btn">
-                    <FiTrash2 />
-                  </button>
+                  <span>{fc.front}</span>
+                  <button className="icon-btn"><FiTrash2 /></button>
                 </div>
               ))}
             </div>
 
-            {/* Botões alinhados */}
             <div className="linha-botoes">
-              <button className="btn-adicionar-flashcard">
+              <button
+                className="btn-adicionar-flashcard"
+                onClick={() => setShowFlashcardModal(true)}
+              >
                 adicionar flashcard
               </button>
 
               <button
                 className="btn-excluir"
                 onClick={async () => {
-                  if (!window.confirm("Tem certeza que deseja excluir esta matéria?")) return;
+                  if (!window.confirm("Excluir matéria?")) return;
 
                   try {
-                    const res = await fetch(`http://localhost:3001/api/subjects/${selectedSubject.id}`, {
-                      method: "DELETE",
-                    });
-
-                    if (!res.ok) throw new Error("Erro ao excluir");
+                    await fetch(
+                      `http://localhost:3001/api/subjects/${selectedSubject.id}`,
+                      { method: "DELETE" }
+                    );
 
                     setSubjects((prev) =>
                       prev.filter((s) => s.id !== selectedSubject.id)
                     );
                     setSelectedSubject(null);
                     setSelectedSubjectId("");
-
                   } catch (err) {
                     alert("❌ Erro ao excluir a matéria");
-                    console.error(err);
                   }
                 }}
               >
