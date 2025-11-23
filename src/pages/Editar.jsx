@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Editar.css";
 import { FiEdit2, FiTrash2 } from "react-icons/fi";
 import { useUser } from "@clerk/clerk-react";
-import FlashcardCriar from "../components/FlashcardCriar"; // ← IMPORTANTE
+import FlashcardCriar from "../components/FlashcardCriar";
 
 const EditarMateria = () => {
   const { user } = useUser();
@@ -12,9 +12,9 @@ const EditarMateria = () => {
   const [selectedSubject, setSelectedSubject] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Controle do modal de flashcard
   const [showFlashcardModal, setShowFlashcardModal] = useState(false);
 
+  // 🔥 1. Buscar matérias
   useEffect(() => {
     if (!user) return;
 
@@ -34,14 +34,53 @@ const EditarMateria = () => {
     };
 
     fetchSubjects();
-  }, [user]); 
+  }, [user]);
 
+  // 🔥 2. Atualizar matéria selecionada
   useEffect(() => {
     const found = subjects.find((s) => s.id === selectedSubjectId);
     setSelectedSubject(found || null);
   }, [selectedSubjectId, subjects]);
 
-  // Salvar flashcard no servidor
+  // 🔥 3. Buscar deck + flashcards da matéria
+  useEffect(() => {
+    if (!selectedSubjectId) return;
+
+    const fetchFlashcards = async () => {
+      try {
+        // 1️⃣ Buscar deck que pertence à matéria
+        const deckRes = await fetch(
+          `http://localhost:3001/api/decks/by-subject/${selectedSubjectId}`
+        );
+
+        const deck = await deckRes.json();
+        if (!deck?.id) {
+          console.warn("Matéria ainda não tem deck.");
+          return;
+        }
+
+        // 2️⃣ Buscar flashcards do deck
+        const cardsRes = await fetch(
+          `http://localhost:3001/api/decks/${deck.id}/cards`
+        );
+
+        const cards = await cardsRes.json();
+
+        // 3️⃣ Inserir flashcards na matéria
+        setSubjects((prev) =>
+          prev.map((s) =>
+            s.id === selectedSubjectId ? { ...s, flashcards: cards } : s
+          )
+        );
+      } catch (err) {
+        console.error("Erro ao carregar flashcards:", err);
+      }
+    };
+
+    fetchFlashcards();
+  }, [selectedSubjectId]);
+
+  // 🔥 4. Criar flashcard
   const handleSaveFlashcard = async ({ frente, verso, cor }) => {
     if (!selectedSubject) return;
 
@@ -61,11 +100,17 @@ const EditarMateria = () => {
 
       if (!res.ok) throw new Error("Erro ao criar flashcard");
 
-      // Atualiza visualmente a lista após salva
+      // Atualiza visualmente
       setSubjects((prev) =>
         prev.map((s) =>
           s.id === selectedSubject.id
-            ? { ...s, flashcards: [...s.flashcards, { front: frente, back: verso, color: cor }] }
+            ? {
+                ...s,
+                flashcards: [
+                  ...s.flashcards,
+                  { front: frente, back: verso, color: cor },
+                ],
+              }
             : s
         )
       );
@@ -87,7 +132,6 @@ const EditarMateria = () => {
   return (
     <div className="main-content">
       <div className="editar-container">
-
         {showFlashcardModal && (
           <FlashcardCriar
             onClose={() => setShowFlashcardModal(false)}
@@ -113,15 +157,18 @@ const EditarMateria = () => {
 
         {selectedSubject && (
           <div className="conteudo-edicao">
-
             <div className="campo-linha">
               <h2>{selectedSubject.name}</h2>
-              <button className="icon-btn"><FiEdit2 /></button>
+              <button className="icon-btn">
+                <FiEdit2 />
+              </button>
             </div>
 
             <div className="campo-linha">
               <p className="descricao">{selectedSubject.description}</p>
-              <button className="icon-btn"><FiEdit2 /></button>
+              <button className="icon-btn">
+                <FiEdit2 />
+              </button>
             </div>
 
             <h3 className="subtitulo">data de conclusão</h3>
@@ -133,7 +180,9 @@ const EditarMateria = () => {
               {(selectedSubject.flashcards || []).map((fc) => (
                 <div key={fc.id} className="flashcard-item">
                   <span>{fc.front}</span>
-                  <button className="icon-btn"><FiTrash2 /></button>
+                  <button className="icon-btn">
+                    <FiTrash2 />
+                  </button>
                 </div>
               ))}
             </div>
@@ -170,7 +219,6 @@ const EditarMateria = () => {
                 excluir
               </button>
             </div>
-
           </div>
         )}
       </div>

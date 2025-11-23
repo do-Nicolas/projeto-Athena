@@ -11,7 +11,7 @@ export const getAllSubjects = async (req, res) => {
         where: { userId },
       });
     } else {
-      // 👀 Modo DEBUG: permite acessar pelo navegador
+      // 👀 Modo DEBUG
       console.warn("⚠️ Nenhum userId enviado — retornando todas as matérias (modo debug)");
       subjects = await prisma.subject.findMany(); // sem filtro
     }
@@ -32,6 +32,7 @@ export const createSubject = async (req, res) => {
       return res.status(400).json({ error: "User ID não enviado" });
     }
 
+    // 🔹 1 — Criar a matéria
     const subject = await prisma.subject.create({
       data: {
         name,
@@ -43,8 +44,24 @@ export const createSubject = async (req, res) => {
       },
     });
 
-    res.status(201).json(subject);
+    // 🔹 2 — Criar automaticamente um deck vinculado a essa matéria
+    const deck = await prisma.deck.create({
+      data: {
+        userId,
+        subjectId: subject.id,
+      },
+    });
+
+    console.log("📦 Deck criado automaticamente:", deck);
+
+    // 🔹 3 — Retornar a matéria e o deck criado
+    res.status(201).json({
+      subject,
+      deck,
+    });
+
   } catch (error) {
+    console.error("❌ Erro no createSubject:", error);
     res.status(500).json({ error: "Erro no Prisma", details: error.message });
   }
 };

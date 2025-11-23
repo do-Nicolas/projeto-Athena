@@ -19,35 +19,23 @@ model StudyPlan {
 }
 
 model Subject {
-  id             String   @id @default(uuid())
+  id             String       @id @default(uuid())
   name           String
   description    String?
   conclusionTime String
   color          String
   createdAt      DateTime @default(now())
-
-  userId         String   // <---- ISSO PRECISA EXISTIR
+  userId         String
 
   planId         String?
   plan           StudyPlan? @relation(fields: [planId], references: [id])
 
-  topics         Topic[]
   sessionItems   SessionItem[]
+  decks          Deck[]      // <-- relação reversa
 }
 
 
 
-model Topic {
-  id          String   @id @default(uuid())
-  subjectId   String
-  title       String
-  description String?
-  createdAt   DateTime @default(now())
-
-  subject      Subject       @relation(fields: [subjectId], references: [id], onDelete: Cascade)
-  flashcards   Card[]        @relation("TopicCards")
-  sessionItems SessionItem[]
-}
 
 model StudySession {
   id             String   @id @default(uuid())
@@ -68,28 +56,25 @@ model SessionItem {
   id        String  @id @default(uuid())
   sessionId String
   subjectId String?
-  topicId   String?
   notes     String?
 
   session StudySession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
   subject Subject?     @relation(fields: [subjectId], references: [id], onDelete: SetNull)
-  topic   Topic?       @relation(fields: [topicId], references: [id], onDelete: SetNull)
 }
 
 model Deck {
-  id          String   @id @default(uuid())
-  userId      String
-  title       String
-  description String?
-  createdAt   DateTime @default(now())
+  id        String   @id @default(uuid())
+  userId    String
+  subjectId String
+  subject   Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
 
-  cards Card[]
+  cards     Card[]
 }
+
 
 model Card {
   id           String    @id @default(uuid())
   deckId       String
-  topicId      String?
   front        String
   back         String?
   createdAt    DateTime  @default(now())
@@ -101,11 +86,11 @@ model Card {
   isSuspended  Boolean   @default(false)
 
   deck        Deck         @relation(fields: [deckId], references: [id], onDelete: Cascade)
-  topic       Topic?       @relation("TopicCards", fields: [topicId], references: [id], onDelete: SetNull)
   reviews     CardReview[]
   tags        CardTag[]
   attachments Attachment[]
 }
+
 
 model CardReview {
   id                  String   @id @default(uuid())

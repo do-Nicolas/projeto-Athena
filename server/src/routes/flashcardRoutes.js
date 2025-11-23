@@ -1,0 +1,14 @@
+import express from "express";
+import {
+  getAllFlashcards,
+  createFlashcard,
+  deleteFlashcard,
+} from "../controllers/flashcardController.js";
+
+const router = express.Router();
+
+router.get("/", getAllFlashcards);
+router.post("/", createFlashcard);
+router.delete("/:id", deleteFlashcard);
+
+export default router;
