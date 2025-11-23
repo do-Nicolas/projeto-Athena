@@ -140,3 +140,18 @@
     justify-content: center;
   }
 }
+
+/* 🔒 Deixa a data proibida cinza */
+.fc-dia-bloqueado {
+  background-color: #ddd !important;
+  color: #888 !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+  opacity: 0.7;
+}
+
+/* Impede hover de iluminar */
+.fc-dia-bloqueado:hover {
+  background-color: #ddd !important;
+}
+

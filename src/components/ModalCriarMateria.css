@@ -117,8 +117,10 @@
   font-size: 14px;
 }
 .form-materia select {
-    padding-right: 20rem;
+  width: 100%;
+  padding-right: 1rem;
 }
+
 
 .form-materia textarea {
   resize: none;

@@ -1,15 +1,40 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import "./ModalCriarMateria.css";
 import { SliderPicker } from "react-color";
-import { useUser } from "@clerk/clerk-react";   // 🔥 IMPORTANTE
+import { useUser } from "@clerk/clerk-react";
 
-const ModalCriarMateria = ({ onClose, planId }) => {
-  const { user } = useUser(); // 🔥 pega o usuário atual do Clerk
+const formatDateToBR = (iso) => {
+  if (!iso) return "";
+  // iso esperado: "YYYY-MM-DD"
+  const [y, m, d] = iso.split("-");
+  if (!y || !m || !d) return iso;
+  return `${d}/${m}/${y}`;
+};
 
-  const [nome, setNome] = useState("");
-  const [descricao, setDescricao] = useState("");
-  const [conclusao, setConclusao] = useState("");
-  const [cor, setCor] = useState("#A6EFFF");
+const ModalCriarMateria = ({
+  onClose,
+  onSelectConclusionClick,
+  nome,
+  setNome,
+  descricao,
+  setDescricao,
+  conclusao,
+  setConclusao,
+  cor,
+  setCor,
+  selectedDay,
+  planId,
+}) => {
+  const { user } = useUser();
+
+  // Se voltamos do calendário com selectedDay, já atualizamos o campo
+  // (na prática, isso já é feito no pai — mas mantemos efeito caso queira sincronizar)
+  useEffect(() => {
+    if (selectedDay) {
+      setConclusao(selectedDay);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedDay]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,15 +45,14 @@ const ModalCriarMateria = ({ onClose, planId }) => {
         headers: {
           "Content-Type": "application/json",
         },
-          body: JSON.stringify({
-        userId: user.id,
-        planId: planId,
-        name: nome,
-        description: descricao,
-        conclusionTime: conclusao,
-        color: cor,
-      }),
-
+        body: JSON.stringify({
+          userId: user.id,
+          planId: planId,
+          name: nome,
+          description: descricao,
+          conclusionTime: conclusao,
+          color: cor,
+        }),
       });
 
       if (!response.ok) {
@@ -72,13 +96,29 @@ const ModalCriarMateria = ({ onClose, planId }) => {
 
             <label>Tempo até conclusão</label>
             <select
-              value={conclusao}
-              onChange={(e) => setConclusao(e.target.value)}
+              value={conclusao || ""}
+              onChange={(e) => {
+                const value = e.target.value;
+                // se o usuário escolheu a opção "calendar", avisamos o pai para abrir o calendário
+                if (value === "calendar") {
+                  // não limpar o restante do formulário: o pai já mantém tudo
+                  onSelectConclusionClick && onSelectConclusionClick();
+                } else {
+                  setConclusao(value);
+                }
+              }}
               required
             >
               <option value="">Selecionar</option>
-              <option value="1sem">1 semestre</option>
-              <option value="2sem">2 semestres</option>
+              {conclusao && /^\d{4}-\d{2}-\d{2}$/.test(conclusao) && (
+                <option value={conclusao}>
+                  Concluir em {formatDateToBR(conclusao)}
+                </option>
+              )}
+
+
+              {/* opção para abrir calendário */}
+              <option value="calendar">Selecionar no calendário</option>
             </select>
 
             <label>Personalização</label>
