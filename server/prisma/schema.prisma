@@ -9,17 +9,17 @@ generator client {
 }
 
 model StudyPlan {
-  id          String    @id @default(uuid())
+  id          String   @id @default(uuid())
   name        String
   description String?
   createdAt   DateTime @default(now())
 
-  subjects    Subject[]
-  sessions    StudySession[]
+  subjects Subject[]
+  sessions StudySession[]
 }
 
 model Subject {
-  id             String       @id @default(uuid())
+  id             String   @id @default(uuid())
   name           String
   description    String?
   conclusionTime String
@@ -27,15 +27,12 @@ model Subject {
   createdAt      DateTime @default(now())
   userId         String
 
-  planId         String?
-  plan           StudyPlan? @relation(fields: [planId], references: [id])
+  planId String?
+  plan   StudyPlan? @relation(fields: [planId], references: [id])
 
-  sessionItems   SessionItem[]
-  decks          Deck[]      // <-- relação reversa
+  sessionItems SessionItem[]
+  decks        Deck[]
 }
-
-
-
 
 model StudySession {
   id             String   @id @default(uuid())
@@ -63,14 +60,13 @@ model SessionItem {
 }
 
 model Deck {
-  id        String   @id @default(uuid())
+  id        String  @id @default(uuid())
   userId    String
   subjectId String
   subject   Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
 
-  cards     Card[]
+  cards Card[]
 }
-
 
 model Card {
   id           String    @id @default(uuid())
@@ -91,7 +87,6 @@ model Card {
   tags        CardTag[]
   attachments Attachment[]
 }
-
 
 model CardReview {
   id                  String   @id @default(uuid())
@@ -135,4 +130,23 @@ model Attachment {
   createdAt   DateTime
 
   card Card @relation(fields: [cardId], references: [id], onDelete: Cascade)
+}
+
+model DailyStudy {
+  id       String   @id @default(uuid())
+  userId   String
+  date     DateTime
+  reviewed Boolean  @default(false)
+
+  // RELAÇÃO (lado inverso)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, date])
+}
+
+model User {
+  id            String       @id
+  streak        Int          @default(0)
+  lastStudyDate DateTime?
+  dailyStudy    DailyStudy[] // ← lado 2 da relação
 }

@@ -92,29 +92,29 @@ const ModalCriarMateria = ({
               placeholder="Fale sobre o conteúdo da sua matéria"
               value={descricao}
               onChange={(e) => setDescricao(e.target.value)}
-            />
+              />
 
-            <label>Tempo até conclusão</label>
-            <select
-              value={conclusao || ""}
-              onChange={(e) => {
-                const value = e.target.value;
-                // se o usuário escolheu a opção "calendar", avisamos o pai para abrir o calendário
-                if (value === "calendar") {
-                  // não limpar o restante do formulário: o pai já mantém tudo
-                  onSelectConclusionClick && onSelectConclusionClick();
-                } else {
-                  setConclusao(value);
-                }
-              }}
-              required
-            >
-              <option value="">Selecionar</option>
-              {conclusao && /^\d{4}-\d{2}-\d{2}$/.test(conclusao) && (
-                <option value={conclusao}>
-                  Concluir em {formatDateToBR(conclusao)}
-                </option>
-              )}
+              <label>Tempo até conclusão</label>
+              <select
+                value={conclusao || ""}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  // se o usuário escolheu a opção "calendar", avisamos o pai para abrir o calendário
+                  if (value === "calendar") {
+                    // não limpar o restante do formulário: o pai já mantém tudo
+                    onSelectConclusionClick && onSelectConclusionClick();
+                  } else {
+                    setConclusao(value);
+                  }
+                }}
+                required
+              >
+                <option value="">Selecionar</option>
+                {conclusao && /^\d{4}-\d{2}-\d{2}$/.test(conclusao) && (
+                  <option value={conclusao}>
+                    Concluir em {formatDateToBR(conclusao)}
+                  </option>
+                )}
 
 
               {/* opção para abrir calendário */}

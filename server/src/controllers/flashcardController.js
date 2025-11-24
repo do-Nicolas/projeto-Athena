@@ -1,5 +1,6 @@
 // controllers/flashcardController.js
 import { prisma } from "../prisma.js";
+import { reviewCard } from "../services/reviewService.js";
 
 /*  
   GET /flashcards
@@ -9,30 +10,36 @@ import { prisma } from "../prisma.js";
 export const getAllFlashcards = async (req, res) => {
   try {
     const userId = req.headers["x-user-id"];
+    const { deckId } = req.query;
 
     if (!userId) {
-      return res.status(400).json({ error: "User ID não enviado no header (x-user-id)" });
+      return res.status(400).json({ error: "User ID não enviado" });
     }
 
-    const { deckId, topicId } = req.query;
-
-    const filters = {
-      deck: { userId },
-      ...(deckId && { deckId }),
-      ...(topicId && { topicId }),
-    };
+    // Agora
+    const now = new Date();
 
     const cards = await prisma.card.findMany({
-      where: filters,
-      orderBy: { createdAt: "desc" },
+      where: {
+        deck: { userId },
+        ...(deckId && { deckId }),
+
+        // 🔥 Só retorna cards cujo dueDate é HOJE ou ANTES
+        dueDate: {
+          lte: now
+        }
+      },
+      orderBy: { createdAt: "desc" }
     });
 
     res.json(cards);
+
   } catch (error) {
     console.error("Erro ao listar flashcards:", error);
     res.status(500).json({ error: "Erro ao buscar flashcards" });
   }
 };
+
 
 /*  
   POST /flashcards
@@ -117,5 +124,25 @@ export const deleteFlashcard = async (req, res) => {
   } catch (error) {
     console.error("Erro ao deletar flashcard:", error);
     res.status(500).json({ error: "Erro ao deletar flashcard" });
+  }
+};
+
+export const reviewFlashcard = async (req, res) => {
+  try {
+    const userId = req.headers["x-user-id"];
+    const { id } = req.params;
+    const { isCorrect } = req.body;
+
+    if (!userId) {
+      return res.status(400).json({ error: "User ID não enviado" });
+    }
+
+    const updated = await reviewCard(id, userId, isCorrect);
+
+    res.json(updated);
+
+  } catch (error) {
+    console.error("Erro na revisão:", error);
+    res.status(500).json({ error: error.message });
   }
 };

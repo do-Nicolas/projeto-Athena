@@ -25,29 +25,23 @@ const Calendar = ({ onDayClick }) => {
 
   // Criar a data clicada sem conversão UTC
   const [year, month, day] = info.dateStr.split("-").map(Number);
-  const clicked = new Date(year, month - 1, day); // sempre local
+  const clicked = new Date(year, month - 1, day);
 
   const hoje = new Date();
   hoje.setHours(0, 0, 0, 0);
 
-  // 📌 Encontrar o próximo domingo (fim da semana atual)
-  const proximoDomingo = new Date(hoje);
-  const diasAteDomingo = 7 - hoje.getDay();
-  proximoDomingo.setDate(hoje.getDate() + diasAteDomingo);
-  proximoDomingo.setHours(0, 0, 0, 0);
+  // 📌 Data mínima permitida: daqui 7 dias
+  const seteDiasDepois = new Date(hoje);
+  seteDiasDepois.setDate(hoje.getDate() + 7);
+  seteDiasDepois.setHours(0, 0, 0, 0);
 
-  // 📌 Primeira data permitida: SEGUNDA da próxima semana
-  const primeiraPermitida = new Date(proximoDomingo);
-  primeiraPermitida.setDate(proximoDomingo.getDate() + 1);
-  primeiraPermitida.setHours(0, 0, 0, 0);
-
-  // ⛔ Bloquear até domingo
-  if (clicked < primeiraPermitida) {
-    alert("Você só pode escolher datas a partir da próxima semana.");
+  // ⛔ Bloquear antes de 7 dias
+  if (clicked < seteDiasDepois) {
+    alert("Você só pode escolher datas daqui 7 dias.");
     return;
   }
 
-  // ✔ Permitir segunda em diante
+  // ✔ Liberar data
   onDayClick(info.dateStr);
 };
 

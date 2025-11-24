@@ -6,14 +6,19 @@ export const getAllSubjects = async (req, res) => {
     let subjects;
 
     if (userId) {
-      // 🔥 Normal: buscar matérias do usuário logado
       subjects = await prisma.subject.findMany({
         where: { userId },
+        include: {
+          decks: true,
+        },
       });
     } else {
-      // 👀 Modo DEBUG
       console.warn("⚠️ Nenhum userId enviado — retornando todas as matérias (modo debug)");
-      subjects = await prisma.subject.findMany(); // sem filtro
+      subjects = await prisma.subject.findMany({
+        include: {
+          decks: true,
+        },
+      });
     }
 
     res.json(subjects);

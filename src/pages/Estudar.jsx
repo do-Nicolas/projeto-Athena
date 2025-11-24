@@ -73,19 +73,21 @@ const Estudar = () => {
     if (cards.length === 0) {
       return (
         <div className="main-content">
-          <p>Esse deck ainda não possui flashcards.</p>
+          <p>Você não possui revisões para hoje ou não existem flashcards para esse deck.</p>
           <button onClick={() => setStudying(false)}>Voltar</button>
         </div>
       );
     }
 
-    return (
-      <FlashcardViewer
-        subject={currentSubject}
-        cards={cards}
-        onExit={() => setStudying(false)}
-      />
-    );
+        return (
+        <FlashcardViewer
+          subject={currentSubject}
+          cards={cards}
+          onExit={() => setStudying(false)}
+          user={user}   // <-- ESSENCIAL
+        />
+      );
+
   }
 
   // tela normal → lista de subjects
