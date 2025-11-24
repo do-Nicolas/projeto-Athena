@@ -42,47 +42,46 @@ export const getAllFlashcards = async (req, res) => {
 export const createFlashcard = async (req, res) => {
   try {
     const userId = req.headers["x-user-id"];
-    const { front, back, color, deckId, topicId } = req.body;
+    const { front, back, color, deckId } = req.body;
 
     if (!userId) {
       return res.status(400).json({ error: "User ID não enviado no header (x-user-id)" });
-      
     }
 
     if (!front) {
       return res.status(400).json({ error: "Campo 'front' é obrigatório" });
     }
 
-    if (!deckId && !topicId) {
-      return res.status(400).json({ error: "É necessário informar deckId ou topicId" });
+    if (!deckId) {
+      return res.status(400).json({ error: "É necessário informar deckId" });
     }
 
     // 🔐 Garantir que o deck pertence ao usuário
-    if (deckId) {
-      const deck = await prisma.deck.findFirst({
-        where: { id: deckId, userId },
-      });
+    const deck = await prisma.deck.findFirst({
+      where: { id: deckId, userId },
+    });
 
-      if (!deck) {
-        return res.status(403).json({ error: "Deck não pertence ao usuário" });
-      }
+    if (!deck) {
+      return res.status(403).json({ error: "Deck não pertence ao usuário" });
     }
-   
 
     const card = await prisma.card.create({
       data: {
         front,
         back,
-        deckId,
-        topicId: topicId || null,
-        // opcional: salvar cor como tag ou attachment futuramente
+        color,
+        deckId
       },
     });
 
     res.status(201).json(card);
+
   } catch (error) {
     console.error("Erro ao criar flashcard:", error);
-    res.status(500).json({ error: "Erro ao criar flashcard", details: error.message });
+    res.status(500).json({ 
+      error: "Erro ao criar flashcard", 
+      details: error.message 
+    });
   }
 };
 

@@ -10,11 +10,12 @@ const EditarMateria = () => {
   const [subjects, setSubjects] = useState([]);
   const [selectedSubjectId, setSelectedSubjectId] = useState("");
   const [selectedSubject, setSelectedSubject] = useState(null);
+  const [deckSelecionado, setDeckSelecionado] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const [showFlashcardModal, setShowFlashcardModal] = useState(false);
 
-  // 🔥 1. Buscar matérias
+  // 1️⃣ Buscar matérias
   useEffect(() => {
     if (!user) return;
 
@@ -36,37 +37,38 @@ const EditarMateria = () => {
     fetchSubjects();
   }, [user]);
 
-  // 🔥 2. Atualizar matéria selecionada
-  useEffect(() => {
-    const found = subjects.find((s) => s.id === selectedSubjectId);
-    setSelectedSubject(found || null);
-  }, [selectedSubjectId, subjects]);
-
-  // 🔥 3. Buscar deck + flashcards da matéria
+  // 2️⃣ Atualizar matéria selecionada
   useEffect(() => {
     if (!selectedSubjectId) return;
 
-    const fetchFlashcards = async () => {
+    const found = subjects.find((s) => s.id === selectedSubjectId) || null;
+    setSelectedSubject(found);
+  }, [selectedSubjectId, subjects]);
+
+  // 3️⃣ Buscar deck + cards da matéria
+  useEffect(() => {
+    if (!selectedSubjectId) return;
+
+    const fetchDeckAndCards = async () => {
       try {
-        // 1️⃣ Buscar deck que pertence à matéria
         const deckRes = await fetch(
-          `http://localhost:3001/api/decks/by-subject/${selectedSubjectId}`
+          `http://localhost:3001/decks/by-subject/${selectedSubjectId}`
         );
 
         const deck = await deckRes.json();
-        if (!deck?.id) {
-          console.warn("Matéria ainda não tem deck.");
+
+        if (!deck || !deck.id) {
+          setDeckSelecionado(null);
           return;
         }
 
-        // 2️⃣ Buscar flashcards do deck
-        const cardsRes = await fetch(
-          `http://localhost:3001/api/decks/${deck.id}/cards`
-        );
+        setDeckSelecionado(deck);
 
+        const cardsRes = await fetch(
+          `http://localhost:3001/decks/${deck.id}/cards`
+        );
         const cards = await cardsRes.json();
 
-        // 3️⃣ Inserir flashcards na matéria
         setSubjects((prev) =>
           prev.map((s) =>
             s.id === selectedSubjectId ? { ...s, flashcards: cards } : s
@@ -77,47 +79,44 @@ const EditarMateria = () => {
       }
     };
 
-    fetchFlashcards();
+    fetchDeckAndCards();
   }, [selectedSubjectId]);
 
-  // 🔥 4. Criar flashcard
-  const handleSaveFlashcard = async ({ frente, verso, cor }) => {
-    if (!selectedSubject) return;
+  // 4️⃣ Criar flashcard (agora só recebe o card já criado)
+  const criarFlashcard = (novoCard) => {
+    setSubjects((prev) =>
+      prev.map((s) =>
+        s.id === selectedSubjectId
+          ? { ...s, flashcards: [...(s.flashcards || []), novoCard] }
+          : s
+      )
+    );
+
+    setShowFlashcardModal(false);
+  };
+
+  // 5️⃣ Excluir matéria
+  const deletarMateria = async () => {
+    if (!selectedSubjectId) return;
+
+    if (!confirm("Deseja realmente excluir esta matéria?")) return;
 
     try {
-      const res = await fetch("http://localhost:3001/api/flashcards", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          subject_id: selectedSubject.id,
-          front: frente,
-          back: verso,
-          color: cor,
-        }),
+      await fetch(`http://localhost:3001/api/subjects/${selectedSubjectId}`, {
+        method: "DELETE",
+        headers: { "x-user-id": user.id },
       });
 
-      if (!res.ok) throw new Error("Erro ao criar flashcard");
+      // Remove da lista local
+      setSubjects((prev) => prev.filter((s) => s.id !== selectedSubjectId));
 
-      // Atualiza visualmente
-      setSubjects((prev) =>
-        prev.map((s) =>
-          s.id === selectedSubject.id
-            ? {
-                ...s,
-                flashcards: [
-                  ...s.flashcards,
-                  { front: frente, back: verso, color: cor },
-                ],
-              }
-            : s
-        )
-      );
-
-      setShowFlashcardModal(false);
+      // Limpa seleção
+      setSelectedSubjectId("");
+      setSelectedSubject(null);
+      setDeckSelecionado(null);
     } catch (err) {
-      console.error(err);
+      console.error("Erro ao excluir matéria:", err);
+      alert("Erro ao excluir matéria");
     }
   };
 
@@ -132,15 +131,20 @@ const EditarMateria = () => {
   return (
     <div className="main-content">
       <div className="editar-container">
+
+        {/* Modal */}
         {showFlashcardModal && (
           <FlashcardCriar
             onClose={() => setShowFlashcardModal(false)}
-            onSave={handleSaveFlashcard}
-            subjectId={selectedSubject?.id}
+            deckId={deckSelecionado?.id}
+            userId={user.id}
+            onSave={criarFlashcard}
           />
         )}
 
-        <div className="titulo-box">escolha a matéria que você deseja editar</div>
+        <div className="titulo-box">
+          escolha a matéria que você deseja editar
+        </div>
 
         <select
           className="select-materia"
@@ -157,6 +161,7 @@ const EditarMateria = () => {
 
         {selectedSubject && (
           <div className="conteudo-edicao">
+
             <div className="campo-linha">
               <h2>{selectedSubject.name}</h2>
               <button className="icon-btn">
@@ -171,9 +176,6 @@ const EditarMateria = () => {
               </button>
             </div>
 
-            <h3 className="subtitulo">data de conclusão</h3>
-            <p>{selectedSubject.conclusionTime || "não definida"}</p>
-
             <h3 className="subtitulo">flashcards</h3>
 
             <div className="flashcard-lista">
@@ -187,6 +189,7 @@ const EditarMateria = () => {
               ))}
             </div>
 
+            {/* 🔥 Botões restaurados */}
             <div className="linha-botoes">
               <button
                 className="btn-adicionar-flashcard"
@@ -197,28 +200,12 @@ const EditarMateria = () => {
 
               <button
                 className="btn-excluir"
-                onClick={async () => {
-                  if (!window.confirm("Excluir matéria?")) return;
-
-                  try {
-                    await fetch(
-                      `http://localhost:3001/api/subjects/${selectedSubject.id}`,
-                      { method: "DELETE" }
-                    );
-
-                    setSubjects((prev) =>
-                      prev.filter((s) => s.id !== selectedSubject.id)
-                    );
-                    setSelectedSubject(null);
-                    setSelectedSubjectId("");
-                  } catch (err) {
-                    alert("❌ Erro ao excluir a matéria");
-                  }
-                }}
+                onClick={deletarMateria}
               >
-                excluir
+                excluir matéria
               </button>
             </div>
+
           </div>
         )}
       </div>

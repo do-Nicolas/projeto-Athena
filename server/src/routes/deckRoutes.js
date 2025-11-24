@@ -4,6 +4,7 @@ import {
   getAllDecks,
   createDeck,
   getFlashcardsFromDeck,
+  getDeckBySubject,
   deleteDeck
 } from "../controllers/deckController.js";
 

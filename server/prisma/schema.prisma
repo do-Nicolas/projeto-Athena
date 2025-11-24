@@ -76,7 +76,8 @@ model Card {
   id           String    @id @default(uuid())
   deckId       String
   front        String
-  back         String?
+  color        String
+  back         String
   createdAt    DateTime  @default(now())
   easiness     Float     @default(2.5)
   repetitions  Int       @default(0)
