@@ -1,46 +1,94 @@
 import React, { useEffect, useState } from "react";
 import "./Estudar.css";
 import { darkenColor } from "../utils/ColorUtils";
-import { useUser } from "@clerk/clerk-react";   // 🔥 IMPORTANTE
+import { useUser } from "@clerk/clerk-react";
+import FlashcardViewer from "./FlashcardViewer"; // importe o viewer
 
 const Estudar = () => {
-  const { user } = useUser(); // pega o usuário logado
+  const { user } = useUser();
 
   const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // estado de estudo
+  const [studying, setStudying] = useState(false);
+  const [currentSubject, setCurrentSubject] = useState(null);
+  const [cards, setCards] = useState([]);
+  const [cardsLoading, setCardsLoading] = useState(false);
+
   const diasDaSemana = [
-    "Domingo",
-    "Segunda-feira",
-    "Terça-feira",
-    "Quarta-feira",
-    "Quinta-feira",
-    "Sexta-feira",
-    "Sábado"
+    "Domingo", "Segunda-feira", "Terça-feira",
+    "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"
   ];
 
   const hoje = new Date();
   const diaSemana = diasDaSemana[hoje.getDay()];
 
+  // carrega subjects
   useEffect(() => {
-    if (!user) return; // espera o Clerk carregar
+    if (!user) return;
 
     fetch("http://localhost:3001/api/subjects", {
-      headers: {
-        "x-user-id": user.id,   // 🔥 ENVIA O ID DO USUÁRIO
-      }
+      headers: { "x-user-id": user.id }
     })
-      .then((res) => res.json())
-      .then((data) => {
+      .then(res => res.json())
+      .then(data => {
         setSubjects(data);
         setLoading(false);
       })
-      .catch((err) => {
+      .catch(err => {
         console.error("Erro ao buscar matérias:", err);
         setLoading(false);
       });
-  }, [user]); // só executa quando o usuário for carregado
+  }, [user]);
 
+  // função disparada ao clicar em "Iniciar"
+  const iniciarEstudo = async (subject) => {
+    setCurrentSubject(subject);
+    setCardsLoading(true);
+
+    try {
+      const res = await fetch(`http://localhost:3001/flashcards?deckId=${subject.decks[0].id}`, {
+        headers: {
+          "x-user-id": user.id
+        }
+      });
+      const data = await res.json();
+
+      setCards(data);
+      setStudying(true);
+    } catch (err) {
+      console.error("Erro ao carregar cards:", err);
+    }
+
+    setCardsLoading(false);
+  };
+
+  // se está estudando → renderizar o viewer
+  if (studying) {
+    if (cardsLoading) {
+      return <div className="main-content"><p>Carregando cards...</p></div>;
+    }
+
+    if (cards.length === 0) {
+      return (
+        <div className="main-content">
+          <p>Esse deck ainda não possui flashcards.</p>
+          <button onClick={() => setStudying(false)}>Voltar</button>
+        </div>
+      );
+    }
+
+    return (
+      <FlashcardViewer
+        subject={currentSubject}
+        cards={cards}
+        onExit={() => setStudying(false)}
+      />
+    );
+  }
+
+  // tela normal → lista de subjects
   if (loading) {
     return (
       <div className="main-content">
@@ -70,6 +118,7 @@ const Estudar = () => {
                 }}
               >
                 <span className="deck-nome">{subject.name}</span>
+
                 <button
                   className="btn-iniciar"
                   style={{
@@ -77,6 +126,7 @@ const Estudar = () => {
                     boxShadow: `0 6px 0 ${sombra}`,
                     color: "white"
                   }}
+                  onClick={() => iniciarEstudo(subject)}
                 >
                   Iniciar
                 </button>
