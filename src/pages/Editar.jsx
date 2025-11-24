@@ -94,6 +94,35 @@ const EditarMateria = () => {
 
     setShowFlashcardModal(false);
   };
+  // 6️⃣ Excluir flashcard
+const deletarFlashcard = async (flashcardId) => {
+  if (!flashcardId) return;
+
+  if (!confirm("Deseja realmente excluir este flashcard?")) return;
+
+  try {
+    await fetch(`http://localhost:3001/flashcards/${flashcardId}`, {
+      method: "DELETE",
+      headers: { "x-user-id": user.id },
+    });
+
+    // Atualiza apenas os cards daquela matéria
+    setSubjects((prev) =>
+      prev.map((s) =>
+        s.id === selectedSubjectId
+          ? {
+              ...s,
+              flashcards: s.flashcards.filter((fc) => fc.id !== flashcardId),
+            }
+          : s
+      )
+    );
+  } catch (err) {
+    console.error("Erro ao excluir flashcard:", err);
+    alert("Erro ao excluir flashcard");
+  }
+};
+
 
   // 5️⃣ Excluir matéria
   const deletarMateria = async () => {
@@ -182,7 +211,10 @@ const EditarMateria = () => {
               {(selectedSubject.flashcards || []).map((fc) => (
                 <div key={fc.id} className="flashcard-item">
                   <span>{fc.front}</span>
-                  <button className="icon-btn">
+                  <button
+                    className="icon-btn"
+                    onClick={() => deletarFlashcard(fc.id)}
+                    >
                     <FiTrash2 />
                   </button>
                 </div>
