@@ -19,51 +19,74 @@
   margin-bottom: 30px;
 }
 
-/* SELECT estilizado + animação */
-.select-materia {
+/* 🔥 Wrapper do dropdown */
+.dropdown-materia {
   width: 100%;
-  padding: 12px 14px;
-  border-radius: 15px;
-  border: 1px solid #bbb;
+  position: relative;
+  margin-bottom: 25px;
+  font-family: "Jost", sans-serif;
+}
+
+/* 🔥 Cabeçalho do dropdown */
+.dropdown-header {
   background: white;
-  text-align: center;
-  letter-spacing: 2px;
-  font-size: 1rem;
-  transition: 0.2s ease;
+  border: 2px solid #b3e9ff;
+  padding: 14px;
+  border-radius: 15px;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
   cursor: pointer;
+  text-align: center;
+  transition: 0.2s ease;
 }
 
-.select-materia:hover {
-  transform: scale(1.02);
-  border-color: #88d8f5;
+.dropdown-header:hover {
+  border-color: #88d8ff;
+  box-shadow: 0px 0px 8px rgba(148, 226, 255, 0.4);
 }
 
-.select-materia:focus {
-  outline: none;
-  border-color: #5bc7f0;
-  box-shadow: 0 0 8px rgba(91, 199, 240, 0.4);
+/* 🔥 Menu de opções */
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 5px);
+  width: 100%;
+  background: white;
+  border-radius: 15px;
+  border: 1px solid #d8f4ff;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.25s ease;
+  z-index: 10;
 }
 
-/* Conteúdo */
-
-/* Linha de edição */
-.campo-linha {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
+.dropdown-menu.open {
+  max-height: 300px;
+  opacity: 1;
+  pointer-events: all;
 }
 
-.campo-linha h2 {
-  font-size: 1.5rem;
-  flex: 1;
+/* 🔥 Itens */
+.dropdown-item {
+  padding: 14px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.2s ease;
 }
+
+.dropdown-item:hover {
+  background: #e9f9ff;
+}
+
+
 
 .descricao {
   flex: 1;
   color: #616161;
   line-height: 1.4;
-  font-size:1.5rem;
+  font-size: 1.5rem;
   margin-top: 0;
 }
 
@@ -109,7 +132,6 @@
   border-bottom: none;
 }
 
-/* Botões */
 .linha-botoes {
   display: flex;
   justify-content: space-between;
@@ -164,4 +186,101 @@
   .campo-linha h2 {
     font-size: 1.25rem;
   }
+  
+}
+/* 📌 Quando o container está vazio */
+.flashcard-lista.vazio {
+  min-height: 150px; /* Altura fixa quando vazio */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px dashed #c5eaff;
+  background: #f8fdff;
+}
+
+/* 📌 Mensagem de vazio */
+.flashcard-vazio-msg {
+  color: #8ab6c8;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+}
+
+/* 📌 Quando tem cards, segue normal */
+.flashcard-lista {
+  border: 1px solid #ddd;
+  border-radius: 15px;
+  margin-top: 12px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  transition: 0.25s ease;
+}
+
+.campo-linha.coluna {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.descricao-box {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;            /* 🔥 Agora ocupa o espaço total disponível */
+}
+
+
+
+.data-conclusao {
+  font-size: 0.9rem;
+  color: #6f7d85;
+  opacity: 0.9;
+}
+
+.edit-inline {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+}
+
+.edit-input {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #bbb;
+  width: 100%;
+  font-size: 1rem;
+}
+
+.save-btn,
+.cancel-btn {
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: #1a73e8;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  background: #555;
+}
+
+.linha-edit {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+/* Quando estiver editando a descrição */
+.edit-coluna {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+}
+.linha-editavel {
+  display: flex;
+  align-items: flex-start; /* 🔥 Alinha o lápis ao topo da descrição */
+  justify-content: space-between;
+  gap: 10px;
 }

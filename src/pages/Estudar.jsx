@@ -73,12 +73,18 @@ const Estudar = () => {
     if (cards.length === 0) {
       return (
         <div className="main-content">
-          <p>Você não possui revisões para hoje ou não existem flashcards para esse deck.</p>
-          <button onClick={() => setStudying(false)}>Voltar</button>
+          <div className="sem-revisoes-container">
+            <p className="sem-revisoes-texto">
+              Você não possui revisões para hoje ou não existem flashcards para esse deck.
+            </p>
+
+            <button className="btn-voltar" onClick={() => setStudying(false)}>
+              Voltar
+            </button>
+          </div>
         </div>
       );
-    }
-
+}
         return (
         <FlashcardViewer
           subject={currentSubject}

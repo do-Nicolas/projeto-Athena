@@ -65,3 +65,49 @@
 }
 
 
+/* ===============================
+   Quando não há revisões
+   =============================== */
+
+.sem-revisoes-container {
+  margin-top: 40px;
+  padding: 40px;
+  background: #f8f8f8;
+  border-radius: 25px;
+  width: 70%;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.25);
+}
+
+.sem-revisoes-texto {
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #555;
+  margin-bottom: 25px;
+  line-height: 1.5;
+}
+
+.btn-voltar {
+  padding: 12px 25px;
+  border-radius: 18px;
+  background: #1a73e8;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.15s ease-in-out;
+  box-shadow: 0 6px 0 #0d47a1;
+}
+
+.btn-voltar:hover {
+  filter: brightness(1.12);
+}
+
+.btn-voltar:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 #0d47a1;
+}

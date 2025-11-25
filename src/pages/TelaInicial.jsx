@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import Calendar from "../components/Calendar";
 import ModalCriarMateria from "../components/ModalCriarMateria";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "@clerk/clerk-react"; // <-- ADICIONADO
 import "./TelaInicial.css";
 
 const TelaInicial = () => {
+  const { user } = useUser(); // <-- ADICIONADO
+
   const [showModalCriar, setShowModalCriar] = useState(false);
   const [selectingDay, setSelectingDay] = useState(false);
 
@@ -48,10 +51,14 @@ const TelaInicial = () => {
           <h1>CRONOGRAMA</h1>
         </div>
 
-        <div className="calendar-area">
-          {/* passamos onDayClick apenas quando estamos no modo selectingDay */}
-          <Calendar onDayClick={selectingDay ? handleCalendarSelect : null} />
-        </div>
+       <div className="calendar-area">
+        <Calendar
+        onDayClick={selectingDay ? handleCalendarSelect : null}
+        userId={user ? user.id : null}
+        fetchUrl="http://localhost:3001/decks"
+      />
+
+      </div>
 
         <div className="botoes-container">
           <button

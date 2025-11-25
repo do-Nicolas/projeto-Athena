@@ -90,3 +90,23 @@ export const deleteSubject = async (req, res) => {
     });
   }
 };
+
+export const updateSubject = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, description } = req.body;
+
+    const updated = await prisma.subject.update({
+      where: { id },
+      data: {
+        ...(name && { name }),
+        ...(description && { description }),
+      },
+    });
+
+    res.json(updated);
+  } catch (error) {
+    console.error("Erro ao atualizar matéria:", error);
+    res.status(500).json({ error: "Erro ao atualizar matéria" });
+  }
+};
