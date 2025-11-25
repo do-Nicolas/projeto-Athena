@@ -32,6 +32,7 @@ export async function reviewCard(cardId, userId, isCorrect) {
 
   // ---------- Próxima dueDate ----------
   let nextDue = new Date();
+  nextDue.setHours(0, 0, 0, 0);
   nextDue.setDate(today.getDate() + interval);
   if (nextDue > deadline) nextDue = deadline;
 
