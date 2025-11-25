@@ -5,28 +5,47 @@
   font-family: "Jost", sans-serif;
 }
 
-/* Card principal */
+/* ===============================
+   CONTÊINER DO TÍTULO (igual ao cronograma)
+================================ */
+.estat-title-container {
+  max-width: 100%;
+  max-width: 300px;
+  margin: 0 auto 20px auto;
+  background: #f4cbb9;
+  padding: 12px;
+  border-radius: 25px;
+  text-align: center;
+}
+
+.estat-title-container h1 {
+      letter-spacing: 10px;
+       font-size: 1.8rem;
+  margin: 0;
+  font-size: 32px;
+  font-weight: 400px;
+   word-wrap: break-word;
+}
+
+/* ===============================
+   CARD PRINCIPAL
+================================ */
 .estat-card {
   background: #fff;
-  width: 100%;
-  max-width: 1000px;
+
+  width: 90%;
+  max-width: 1100px;
+
   padding: 30px;
   margin: 0 auto;
+
   border-radius: 12px;
   box-shadow: 0 0 10px rgba(0,0,0,0.15);
 }
 
-/* Título */
-.estat-title {
-  font-size: 24px;
-  background: #f4cbb9;
-  padding: 10px;
-  border-radius: 10px;
-  text-align: center;
-  margin: 0;
-}
-
-/* Área das métricas */
+/* ===============================
+   MÉTRICAS
+================================ */
 .estat-metrics {
   display: flex;
   justify-content: space-between;
@@ -48,7 +67,9 @@
   margin-bottom: 5px;
 }
 
-/* Gráfico */
+/* ===============================
+   GRÁFICO
+================================ */
 .estat-graph {
   margin-top: 80px;
   height: 220px;
@@ -62,7 +83,6 @@
   width: 70px;
   border-radius: 6px;
   position: relative;
-  color: #333;
   text-align: center;
   font-weight: bold;
 }
@@ -84,7 +104,9 @@
   background: #e98888;
 }
 
-/* Legenda abaixo */
+/* ===============================
+   LEGENDA
+================================ */
 .estat-legend {
   font-size: 20px;
   margin-top: 20px;
@@ -102,11 +124,9 @@
   color: #d55;
 }
 
-/* =======================================================
+/* ===============================
    RESPONSIVIDADE
-========================================================= */
-
-/* Tablets médios */
+================================ */
 @media screen and (max-width: 1000px) {
   .estat-card {
     padding: 25px;
@@ -123,17 +143,10 @@
   .estat-bar {
     width: 55px;
   }
-
-  .estat-graph {
-    margin-top: 60px;
-    gap: 30px;
-  }
 }
 
-/* Tablets pequenos */
 @media screen and (max-width: 780px) {
 
-  /* As métricas viram coluna */
   .estat-metrics {
     flex-direction: column;
     align-items: center;
@@ -147,17 +160,11 @@
   .estat-bar {
     width: 50px;
   }
-
-  .estat-graph {
-    margin-top: 60px;
-    gap: 25px;
-  }
 }
 
-/* Smartphones */
 @media screen and (max-width: 500px) {
 
-  .estat-title {
+  .estat-title-container h1 {
     font-size: 20px;
   }
 
@@ -189,7 +196,6 @@
   }
 }
 
-/* Telas muito pequenas */
 @media screen and (max-width: 380px) {
 
   .estat-bar {
